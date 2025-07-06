@@ -1,0 +1,40 @@
+<%- include("./partials/header.ejs", {title}) %>
+<div>
+    <h1><%=title%></h1>
+
+    <div>
+        <% if(flashes && flashes.danger) { %>
+            <div class = "alert alert-danger">
+                <% flashes.danger.forEach(function(message) { %>
+                    <p><%=message%></p>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+
+    <form action = "/register" method = "POST">
+        <input 
+            type = "text" 
+            name = "username" 
+            placeholder = "username"
+        >
+
+        <input
+            type = "password"
+            name = "password"
+            placeholder = "password"
+        >
+
+        <input
+            type = "password"
+            name = "confirm-password"
+            placeholder = "confirm password"
+        >
+
+        <button type ="submit"></button>
+    </form>
+
+    <a href = "/login">Login</a>
+</div>
+
+<%- include("./partials/footer.ejs") %>

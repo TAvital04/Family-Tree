@@ -1,0 +1,43 @@
+import passport from "passport";
+
+// Login
+    const login = passport.authenticate("local", {
+        successRedirect: "/trees",
+        failureRedirect: "/register",
+        faulureFlash: "Invalid Login"
+    });
+
+// Logout
+    const logout = (req, res, next) => {
+        req.logout((err) => {
+            if(err) {
+                return next(err);
+            }
+        });
+
+        req.flash("success", "Logout Successful");
+        res.render("home", {
+            title: "Home",
+            flashes: req.flash()
+        });
+    }
+
+// Authentication
+    const isAuthenticated = async (req, res, next) => {
+        if(req.isAuthenticated()) {
+            return next();
+        }
+
+        req.flash("danger", "Please log in.");
+        res.render("login", {
+            title: "Login",
+            flashes: req.flash()
+        });
+    }
+
+export default {
+    login,
+    logout,
+
+    isAuthenticated
+}
