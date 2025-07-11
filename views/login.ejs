@@ -3,7 +3,7 @@
 <div>
     <h1><%=title%></h1>
 
-    <form action = "/login" method = "POST">
+    <form action = "/users/login" method = "POST">
         <input 
             type = "text" 
             name = "username" 
@@ -19,7 +19,7 @@
         <button type ="submit"></button>
     </form>
 
-    <a href = "/register">Register</a>
+    <a href = "/users/register">Register</a>
 </div>
 
 <%- include("./partials/footer.ejs") %>

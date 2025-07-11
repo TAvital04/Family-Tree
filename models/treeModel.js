@@ -1,6 +1,9 @@
 // Imports
     import mongoose from "mongoose";
 
+    import GitHubSlugger from "github-slugger";
+    const slugger = new GitHubSlugger();
+
 // Schemas
     const personSchema = new mongoose.Schema({
         firstname: {
@@ -23,7 +26,9 @@
             }
         },
 
-        birthday: Date
+        birthday: {
+            type: Date
+        }
     });
 
     const nodeSchema = new mongoose.Schema({
@@ -34,13 +39,45 @@
 
         descendants: [{
             type: mongoose.SchemaTypes.ObjectId,
-            reg: "Person"
+            ref: "Person"
         }]
     });
 
-// Functions
+    const treeSchema = new mongoose.Schema({
+        title: {
+            type: String
+        },
 
+        node: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "Node"
+        },
+
+        slug: {
+            type: String
+        },
+
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    });
+
+// Functions
+    treeSchema.pre("save", function (next) {
+        if(!this.title || this.title.trim() === "") {
+            this.title = "Untitled Tree";
+        }
+
+        if(!this.isModified("title")) {
+            return next();
+        }
+
+        this.slug = slugger.slug(this.title);
+        next();
+    });
 
 // Exports
     export const Person = mongoose.model("Person", personSchema);
     export const Node = mongoose.model("Node", nodeSchema);
+    export const Tree = mongoose.model("Tree", treeSchema);

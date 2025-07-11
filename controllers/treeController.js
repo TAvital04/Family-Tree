@@ -1,17 +1,13 @@
-import noteHandler from "../handlers/noteHandler.js";
+import treeHandler from "../handlers/treeHandler.js";
 
-// Create
-    // Create a tree
-    const addTree = async (req, res) => {
-        res.send(req.body);
-    }
-    const createTree = async(req, res) => {
-        const treeData = {
-            ...req.body,
-            user: req.user._id
-        }
+const getTrees = async (req, res) => {
+    const trees = await treeHandler.getAllTrees(req.user._id);
 
-        const tree = await treeHandler.createTree(treeData);
+    res.send({
+        ...trees
+    });
+}
 
-        res.redirect("/trees")
-    }
+export default {
+    getTrees
+}
