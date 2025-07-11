@@ -31,7 +31,7 @@
         }
     });
 
-    const nodeSchema = new mongoose.Schema({
+    const memberSchema = new mongoose.Schema({
         person: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: "Person"
@@ -50,7 +50,7 @@
 
         node: {
             type: mongoose.SchemaTypes.ObjectId,
-            ref: "Node"
+            ref: "Member"
         },
 
         slug: {
@@ -79,5 +79,5 @@
 
 // Exports
     export const Person = mongoose.model("Person", personSchema);
-    export const Node = mongoose.model("Node", nodeSchema);
+    export const Member = mongoose.model("Member", memberSchema);
     export const Family = mongoose.model("Family", familySchema);
