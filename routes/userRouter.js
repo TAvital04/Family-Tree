@@ -3,8 +3,6 @@ import {Router} from "express";
 import userController from "../controllers/userController.js";
 import authController from "../controllers/authController.js";
 
-import {catchErrors} from "../handlers/errorHandlers.js";
-
 export const userRouter = Router();
 
 // Register
