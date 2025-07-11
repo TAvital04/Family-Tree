@@ -12,9 +12,5 @@
     });
 
 // Connect to MongoDB
-    try {
-        await connect(process.env.DB_CONN);
-        console.log(`(2/2) MongoDB connected at ${process.env.DB_CONN} :D`);
-    } catch {
-        console.log(`(2/2) MongoDB not connected :P`);
-    }
+    await connect(process.env.DB_CONN);
+    console.log(`(2/2) MongoDB connected at ${process.env.DB_CONN} :D`);

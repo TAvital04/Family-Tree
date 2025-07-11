@@ -1,7 +1,8 @@
 Create .env
-    DB_CONN = whatever
-    PORT=3000
-    PASSPORT_SECRET=whatever
-    PASSPORT_COOKIE=whatever
+    DB_CONN=[DATABASE CONNECTION STRING]
+    PORT=[PORT NUMBER]
+    PASSPORT_SECRET=[ANY STRING]
+    PASSPORT_COOKIE=[ANY STRING]
 
+Start with npm i
 Run with npm start

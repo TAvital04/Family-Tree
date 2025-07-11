@@ -1,10 +1,7 @@
 // Objects
     import {Router} from "express";
 
-    import userController from "../controllers/userController.js";
-    import authController from "../controllers/authController.js";
-
-    import {catchErrors} from "../handlers/errorHandlers.js";
+    import {userRouter} from "./userRouter.js";
 
     export const router = Router();
 
@@ -14,30 +11,7 @@
     });
 
     // Users
-        // Register
-            router.get(
-                "/register",
-                userController.registerForm
-            );
-            router.post(
-                "/register",
-                userController.validateRegister,
-                userController.register
-            );
+    router.use("/users", userRouter);
 
-        // Login
-            router.get(
-                "/login",
-                userController.loginForm
-            );
-            router.post(
-                "/login",
-                authController.login
-            );
-
-        // Logout
-            router.get(
-                "/logout",
-                authController.isAuthenticated,
-                authController.logout
-            );
+    // Trees
+            
