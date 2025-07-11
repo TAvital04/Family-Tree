@@ -2,7 +2,7 @@
     import {Router} from "express";
 
     import {userRouter} from "./userRouter.js";
-    import {treeRouter} from "./treeRouter.js";
+    import {familyRouter} from "./familyRouter.js";
 
     export const router = Router();
 
@@ -15,4 +15,4 @@
     router.use("/users", userRouter);
 
     // Trees
-    router.use("/trees", treeRouter);
+    router.use("/families", familyRouter);

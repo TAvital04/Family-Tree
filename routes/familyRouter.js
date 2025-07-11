@@ -1,15 +1,15 @@
 import {Router} from "express";
 
 import authController from "../controllers/authController.js";
-import treeController from "../controllers/treeController.js";
+import treeController from "../controllers/familyController.js";
 
 import {catchErrors} from "../handlers/errorHandlers.js";
 
-export const treeRouter = Router();
+export const familyRouter = Router();
 
 // Open a list of trees
-    treeRouter.get(
+    familyRouter.get(
         "/",
         authController.isAuthenticated,
-        catchErrors(treeController.getTrees)
+        catchErrors(treeController.getFamilies)
     );

@@ -43,7 +43,7 @@
         }]
     });
 
-    const treeSchema = new mongoose.Schema({
+    const familySchema = new mongoose.Schema({
         title: {
             type: String
         },
@@ -64,7 +64,7 @@
     });
 
 // Functions
-    treeSchema.pre("save", function (next) {
+    familySchema.pre("save", function (next) {
         if(!this.title || this.title.trim() === "") {
             this.title = "Untitled Tree";
         }
@@ -80,4 +80,4 @@
 // Exports
     export const Person = mongoose.model("Person", personSchema);
     export const Node = mongoose.model("Node", nodeSchema);
-    export const Tree = mongoose.model("Tree", treeSchema);
+    export const Family = mongoose.model("Family", familySchema);
