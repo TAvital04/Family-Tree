@@ -14,5 +14,8 @@
     // Users
     router.use("/users", userRouter);
 
-    // Trees
+    // Families
     router.use("/families", familyRouter);
+
+    // Members
+    router.use("/families/:id/:id")
