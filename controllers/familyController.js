@@ -4,7 +4,7 @@ import familyHandler from "../handlers/familyHandler.js";
     const getFamilies = async (req, res) => {
         const families = await familyHandler.getAllFamilies(req.user._id);
 
-        res.render("allFamilies", {
+        res.render("families/allFamilies", {
             title: "Families",
             families
         });
@@ -12,8 +12,10 @@ import familyHandler from "../handlers/familyHandler.js";
 
 // Add a new family
     const addFamily = async (req, res) => {
-        res.render("addFamily", {
-            title: "Add Family"
+        res.render("families/familyForm", {
+            title: "Add Family",
+            action: "/families/add",
+            family: ""
         });
     }
     const createFamily = async (req, res) => {
@@ -32,27 +34,26 @@ import familyHandler from "../handlers/familyHandler.js";
 
         if(!family) return next();
 
-        res.render("editFamily", {
-            title: "Edit Family",
+        res.render("families/viewFamily", {
+            title: family.title,
             family
         });
     }
 
-    const editFamily = async (req, res) => {
-        const family = await familyHandler.getOneFamily({id: req.params.id});
-
-        res.render("editFamily", {
-            title: "Edit Family",
-            family
+    const addMember = async (req, res) => {
+        res.render("families/memberForm", {
+            title: "Add member",
+            action: `/families/${req.params.slug}/add`
         });
     }
-    const updateFamily = async (req, res) => {
-        const id = req.params.id;
-        const familyData = req.body;
+    const createMember = async (req, res) => {
+        const memberData = {
+            ...req.body,
+            user: req.user._id
+        }
+        const member = await familyHandler.createMember(memberData);
 
-        const family = await familyHandler.updateFamily(id, familyData);
-
-        res.redirect("/families");
+        res.redirect(`/families/${req.params.slug}`);
     }
 
 // Delete a family
@@ -70,8 +71,8 @@ export default {
     createFamily,
 
     getFamilyBySlug,
-    editFamily,
-    updateFamily,
+    addMember,
+    createMember,
 
     deleteFamily
 }

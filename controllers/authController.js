@@ -2,7 +2,7 @@ import passport from "passport";
 
 // Login
     const login = passport.authenticate("local", {
-        successRedirect: "/families",
+        successRedirect: "/",
         failureRedirect: "/users/register",
         faulureFlash: "Invalid Login"
     });

@@ -27,7 +27,7 @@ export const userRouter = Router();
     );
 
 // Logout
-    userRouter.get(
+    userRouter.post(
         "/logout",
         authController.isAuthenticated,
         authController.logout

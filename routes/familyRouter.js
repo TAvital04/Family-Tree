@@ -25,21 +25,20 @@ export const familyRouter = Router();
         catchErrors(familyController.createFamily)
     );
 
-// Edit a family
+// Enter a family page
     familyRouter.get(
         "/:slug",
         familyController.getFamilyBySlug
     );
 
     familyRouter.get(
-        "/:id/edit",
+        "/:slug/add",
         authController.isAuthenticated,
-        familyController.editFamily
+        catchErrors(familyController.addMember)
     );
     familyRouter.post(
-        "/:id/edit",
-        authController.isAuthenticated,
-        catchErrors(familyController.updateFamily)
+        "/:slug/add",
+        catchErrors(familyController.createMember)
     );
 
 // Delete a family
