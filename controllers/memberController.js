@@ -1,4 +1,4 @@
-import memberHandler from "../handlers/memberHandler";
+import memberHandler from "../handlers/memberHandler.js";
 
 // Open the member attribute page
     const getMemberBySlug = async (req, res, next) => {

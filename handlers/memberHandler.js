@@ -1,4 +1,4 @@
-import {Member} from "../models/familyModel.js";
+import {Member} from "../models/memberModel.js";
 
 // Open the member attribute page
     const getOneMemberBySlug = async({slug}) => {
