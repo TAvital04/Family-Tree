@@ -6,14 +6,20 @@ import memberHandler from "../handlers/memberHandler.js";
 
         if(!member) return next();
 
-        res.send(member);
+        res.render("editMember", {
+            title: "Edit Member",
+            member
+        });
     }
 
 // Edit member attributes
     const editMember = async (req, res) => {
         const member = await memberHandler.getOneMember({id: req.params.id});
 
-        res.send(member);
+        res.render("editMember", {
+            title: "Edit Member",
+            member
+        });
     }
     const updateMember = async (req, res) => {
         const id = req.params.id;
