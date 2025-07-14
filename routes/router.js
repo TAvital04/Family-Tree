@@ -3,6 +3,7 @@
 
     import {userRouter} from "./userRouter.js";
     import {familyRouter} from "./familyRouter.js";
+    import {memberRouter} from "./memberRouter.js";
 
     export const router = Router();
 
@@ -18,4 +19,4 @@
     router.use("/families", familyRouter);
 
     // Members
-    router.use("/families/:id/:id")
+    router.use("/families/:id/:id", memberRouter);

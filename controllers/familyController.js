@@ -49,7 +49,7 @@ import familyHandler from "../handlers/familyHandler.js";
 // Delete a family
     const deleteFamily = async (req, res) => {
         const id = req.params.id;
-        await familyHandler.deleteFamily(id);
+        const family = await familyHandler.deleteFamily(id);
 
         res.redirect("/families");
     }
