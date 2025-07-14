@@ -5,7 +5,7 @@ const slugger = new GitHubSlugger();
 
 const familySchema = new mongoose.Schema({
     title: {
-        type: String
+        type: String,
     },
 
     node: {
@@ -25,7 +25,7 @@ const familySchema = new mongoose.Schema({
 
 familySchema.pre("save", function (next) {
     if(!this.title || this.title.trim() === "") {
-        this.title = "Untitled Tree";
+        this.title = "Untitled Family";
     }
 
     if(!this.isModified("title")) {
