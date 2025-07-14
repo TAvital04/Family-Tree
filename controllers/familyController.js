@@ -4,14 +4,17 @@ import familyHandler from "../handlers/familyHandler.js";
     const getFamilies = async (req, res) => {
         const families = await familyHandler.getAllFamilies(req.user._id);
 
-        res.send({
-            ...families
+        res.render("allFamilies", {
+            title: "Families",
+            families
         });
     }
 
 // Add a new family
     const addFamily = async (req, res) => {
-        res.send("Add a new family");
+        res.render("addFamily", {
+            title: "Add Family"
+        });
     }
     const createFamily = async (req, res) => {
         const familyData = {
@@ -29,13 +32,19 @@ import familyHandler from "../handlers/familyHandler.js";
 
         if(!family) return next();
 
-        res.send(family);
+        res.render("editFamily", {
+            title: "Edit Family",
+            family
+        });
     }
 
     const editFamily = async (req, res) => {
         const family = await familyHandler.getOneFamily({id: req.params.id});
 
-        res.send(family);
+        res.render("editFamily", {
+            title: "Edit Family",
+            family
+        });
     }
     const updateFamily = async (req, res) => {
         const id = req.params.id;
