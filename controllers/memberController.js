@@ -1,5 +1,4 @@
 import memberHandler from "../handlers/memberHandler";
-import familyController from "./familyController";
 
 // Open the member attribute page
     const getMemberBySlug = async (req, res, next) => {
