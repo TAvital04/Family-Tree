@@ -1,7 +1,12 @@
 import {Member} from "../models/memberModel.js";
 
+// Create a member
+    const createMember = async (memberData) => {
+        return await Member.create(memberData);
+    }
+
 // Open the member attribute page
-    const getOneMemberBySlug = async({slug}) => {
+    const getOneMemberBySlug = async ({slug}) => {
         return await Member.findOne({slug}).lean();
     }
 
@@ -22,6 +27,7 @@ import {Member} from "../models/memberModel.js";
     }
 
 export default {
+    createMember,
     getOneMemberBySlug,
 
     getOneMember,
