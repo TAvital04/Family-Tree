@@ -4,7 +4,7 @@ import memberHandler from "../handlers/memberHandler.js";
     const addMember = async (req, res) => {
         res.render("families/memberForm", {
             title: "Add Member",
-            action: `/families/${req.params.slug}/add`,
+            action: `/families/${req.params.familySlug}/add`,
             member: {
                 firstname: "",
                 lastname: "",

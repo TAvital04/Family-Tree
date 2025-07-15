@@ -21,4 +21,4 @@
     router.use("/families", familyRouter);
 
     // Members
-    router.use("/families/:familySlug/:memberSlug", memberRouter);
+    router.use("/families/:familySlug", memberRouter);
