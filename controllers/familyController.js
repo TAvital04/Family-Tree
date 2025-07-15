@@ -52,7 +52,7 @@ import familyHandler from "../handlers/familyHandler.js";
         });
     }
     const updateFamilyBySlug = async (req, res, next) => {
-        const id = req.params.id;
+        const id = req.body._id;
         const familyData = req.body;
 
         const family = await familyHandler.updateFamily(id, familyData);
