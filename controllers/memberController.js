@@ -1,23 +1,47 @@
 import memberHandler from "../handlers/memberHandler.js";
 
-// Open the member attribute page
+// Create
+    const addMember = async (req, res) => {
+        res.render("families/memberForm", {
+            title: "Add Member",
+            action: `/families/${req.params.slug}/add`,
+            member: {
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthday: ""
+            }
+        });
+    }
+    const createMember = async (req, res) => {
+        const personData = {...req.body};
+        const person = await personHandler.createPerson(personData);
+
+        const memberData = {person};
+        const member = await memberHandler.createMember(memberData);
+
+        res.redirect(`/families/${req.params.slug}`);
+    }
+
+// Read
     const getMemberBySlug = async (req, res, next) => {
         const member = await memberHandler.getOneMemberBySlug({slug: req.params.slug});
 
         if(!member) return next();
 
-        res.render("editMember", {
-            title: "Edit Member",
+        res.render("viewMember", {
+            title: `${member.firstname} ${member.lastname}`,
             member
         });
     }
 
-// Edit member attributes
+// Update
     const editMember = async (req, res) => {
         const member = await memberHandler.getOneMember({id: req.params.id});
 
-        res.render("editMember", {
+        res.render("/families/memberForm", {
             title: "Edit Member",
+            action: `/families/${req.params.familySlug}/${req.params.memberSlug}/edit`,
             member
         });
     }
@@ -31,7 +55,7 @@ import memberHandler from "../handlers/memberHandler.js";
         res.redirect(`/families/:${memberFamily}/:${id}`);
     }
 
-// Delete a member
+// Delete
     const deleteMember = async (req, res) => {
         const id = req.params.id;
         const member = await memberHandler.deleteMember(id);
@@ -40,7 +64,12 @@ import memberHandler from "../handlers/memberHandler.js";
         res.redirect(`/families/:${memberFamily}`);
     }
 
+
+
 export default {
+    addMember,
+    createMember,
+
     getMemberBySlug,
 
     editMember,
