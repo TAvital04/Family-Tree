@@ -7,13 +7,24 @@ import {catchErrors} from "../handlers/errorHandlers.js";
 
 export const memberRouter = Router();
 
-// Open the member attribute page
+// Create
+    memberRouter.get(
+        "/add",
+        authController.isAuthenticated,
+        catchErrors(memberController.addMember)
+    );
+    memberRouter.post(
+        "/add",
+        catchErrors(memberController.createMember)
+    );
+
+// Read
     memberRouter.get(
         "/",
         catchErrors(memberController.getMemberBySlug)
     );
 
-// Edit member attributes
+// Update
     memberRouter.get(
         "/edit",
         authController.isAuthenticated,
@@ -25,7 +36,7 @@ export const memberRouter = Router();
         catchErrors(memberController.updateMember)
     );
 
-// Delete a member
+// Delete
     memberRouter.delete(
         "/delete",
         authController.isAuthenticated,
