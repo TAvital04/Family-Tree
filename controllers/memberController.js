@@ -14,10 +14,10 @@ import memberHandler from "../handlers/memberHandler.js";
         });
     }
     const createMember = async (req, res) => {
-        const personData = {...req.body};
-        const person = await personHandler.createPerson(personData);
-
-        const memberData = {person};
+        const memberData = {
+            ...req.body,
+            user: req.user._id
+        };
         const member = await memberHandler.createMember(memberData);
 
         res.redirect(`/families/${req.params.slug}`);

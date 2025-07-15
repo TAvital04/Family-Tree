@@ -4,14 +4,33 @@ import GitHubSlugger from "github-slugger";
 const slugger = new GitHubSlugger();
 
 const memberSchema = new mongoose.Schema({
-    person: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "Person"
+    member: {
+        firstname: {
+            type: String,
+            default: "Unnamed"
+        },
+
+        lastname: {
+            type: String,
+            default: "Member"
+        },
+
+        gender: {
+            type: String,
+            enum: {
+                values: ["Male", "Female", "Other/Prefer not to say"],
+                message: "{VALUE} is not a valid gender"
+            }
+        },
+
+        birthday: {
+            type: Date
+        }
     },
 
     descendants: [{
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "Person"
+        ref: "Member"
     }],
 
     slug: {
