@@ -1,17 +1,6 @@
 import familyHandler from "../handlers/familyHandler.js";
-import personHandler from "../handlers/personHandler.js";
 
-// Open a list of families
-    const getFamilies = async (req, res) => {
-        const families = await familyHandler.getAllFamilies(req.user._id);
-
-        res.render("families/allFamilies", {
-            title: "Families",
-            families
-        });
-    }
-
-// Add a new family
+// Create
     const addFamily = async (req, res) => {
         res.render("families/familyForm", {
             title: "Add Family",
@@ -29,7 +18,16 @@ import personHandler from "../handlers/personHandler.js";
         res.redirect("/families");
     }
 
-// Edit a family
+// Read
+    const getFamilies = async (req, res) => {
+        const families = await familyHandler.getAllFamilies(req.user._id);
+
+        res.render("families/allFamilies", {
+            title: "Families",
+            families
+        });
+    }
+
     const getFamilyBySlug = async (req, res, next) => {
         const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
 
@@ -41,29 +39,28 @@ import personHandler from "../handlers/personHandler.js";
         });
     }
 
-    const addMember = async (req, res) => {
-        res.render("families/memberForm", {
-            title: "Add member",
-            action: `/families/${req.params.slug}/add`,
-            member: {
-                firstname: "",
-                lastname: "",
-                gender: "",
-                birthday: ""
-            }
+// Update
+    const editFamilyBySlug = async (req, res, next) => {
+        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
+
+        if(!family) return next();
+
+        res.render("families/familyForm", {
+            title: "Edit Family",
+            action: `/families/${req.params.slug}/edit`,
+            family
         });
     }
-    const createMember = async (req, res) => {
-        const personData = {...req.body};
-        const person = await personHandler.createPerson(personData);
+    const updateFamilyBySlug = async (req, res, next) => {
+        const id = req.params.id;
+        const familyData = req.body;
 
-        const memberData = {person};
-        const member = await memberHandler.createMember(memberData);
+        const family = await familyHandler.updateFamily(id, familyData);
 
         res.redirect(`/families/${req.params.slug}`);
     }
 
-// Delete a family
+// Delete
     const deleteFamily = async (req, res) => {
         const id = req.params.id;
         const family = await familyHandler.deleteFamily(id);
@@ -72,14 +69,14 @@ import personHandler from "../handlers/personHandler.js";
     }
 
 export default {
-    getFamilies,
-
     addFamily,
     createFamily,
 
+    getFamilies,
     getFamilyBySlug,
-    addMember,
-    createMember,
+
+    editFamilyBySlug,
+    updateFamilyBySlug,
 
     deleteFamily
 }
