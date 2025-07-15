@@ -51,7 +51,7 @@ import familyHandler from "../handlers/familyHandler.js";
             family
         });
     }
-    const updateFamilyBySlug = async (req, res, next) => {
+    const updateFamily = async (req, res, next) => {
         const id = req.body._id;
         const familyData = req.body;
 
@@ -76,7 +76,7 @@ export default {
     getFamilyBySlug,
 
     editFamilyBySlug,
-    updateFamilyBySlug,
+    updateFamily,
 
     deleteFamily
 }
