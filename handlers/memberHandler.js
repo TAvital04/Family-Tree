@@ -1,19 +1,19 @@
 import {Member} from "../models/memberModel.js";
 
-// Create a member
+// Create
     const createMember = async (memberData) => {
         return await Member.create(memberData);
     }
 
-// Open the member attribute page
+// Read
     const getOneMemberBySlug = async ({slug}) => {
         return await Member.findOne({slug}).lean();
     }
-
-// Edit member attributes
     const getOneMember = async ({id}) => {
         return await Member.findOne({_id: id}).lean();
     }
+
+// Update
     const updateMember = async(id, memberData) => {
         return await Member.findOneAndUpdate({_id: id}, memberData, {
             new: true,
@@ -28,9 +28,10 @@ import {Member} from "../models/memberModel.js";
 
 export default {
     createMember,
-    getOneMemberBySlug,
 
+    getOneMemberBySlug,
     getOneMember,
+    
     updateMember,
 
     deleteMember
