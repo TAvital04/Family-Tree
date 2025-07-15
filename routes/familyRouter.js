@@ -35,7 +35,7 @@ export const familyRouter = Router();
         authController.isAuthenticated,
         catchErrors(familyController.editFamilyBySlug)
     );
-    familyRouter.get(
+    familyRouter.post(
         "/:slug/edit",
         familyController.updateFamilyBySlug
     );
