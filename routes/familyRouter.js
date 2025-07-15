@@ -37,7 +37,7 @@ export const familyRouter = Router();
     );
     familyRouter.post(
         "/:slug/edit",
-        familyController.updateFamilyBySlug
+        familyController.updateFamily
     );
 
 // Delete
