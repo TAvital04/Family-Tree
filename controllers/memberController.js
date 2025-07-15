@@ -20,7 +20,7 @@ import memberHandler from "../handlers/memberHandler.js";
         };
         const member = await memberHandler.createMember(memberData);
 
-        res.redirect(`/families/${req.params.slug}`);
+        res.redirect(`/families/${req.params.familySlug}`);
     }
 
 // Read
@@ -29,7 +29,7 @@ import memberHandler from "../handlers/memberHandler.js";
 
         if(!member) return next();
 
-        res.render("viewMember", {
+        res.render("families/viewMember", {
             title: `${member.firstname} ${member.lastname}`,
             member
         });

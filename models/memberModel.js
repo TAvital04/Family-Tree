@@ -6,13 +6,11 @@ const slugger = new GitHubSlugger();
 const memberSchema = new mongoose.Schema({
     member: {
         firstname: {
-            type: String,
-            default: "Unnamed"
+            type: String
         },
 
         lastname: {
-            type: String,
-            default: "Member"
+            type: String
         },
 
         gender: {
@@ -45,15 +43,16 @@ const memberSchema = new mongoose.Schema({
 });
 
 memberSchema.pre("save", function (next) {
-    if(!this.person.firstname || this.person.firstname.trim() === "") {
-        this.person.firstname = "Unititled Member";
+    if(!this.member.firstname || this.member.firstname.trim() === "") {
+        this.member.firstname = "Unnamed";
     }
 
-    if(!this.person.isModified("firstname")) {
-        return next();
+    if(!this.member.lastname || this.member.lastname.trim() === "") {
+        this.member.lastname = "Member";
     }
 
-    this.slug = slugger.slug(this.person.firstname);
+    this.slug = slugger.slug(`${this.member.firstname} ${this.member.lastname}`);
+        
     next();
 });
 

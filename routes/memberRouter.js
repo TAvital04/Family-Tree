@@ -5,7 +5,7 @@ import memberController from "../controllers/memberController.js";
 
 import {catchErrors} from "../handlers/errorHandlers.js";
 
-export const memberRouter = Router();
+export const memberRouter = Router({mergeParams: true});
 
 // Create
     memberRouter.get(
@@ -20,7 +20,7 @@ export const memberRouter = Router();
 
 // Read
     memberRouter.get(
-        "/",
+        "/:memberSlug",
         catchErrors(memberController.getMemberBySlug)
     );
 

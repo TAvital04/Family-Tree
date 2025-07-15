@@ -1,7 +1,5 @@
 <%- include("../partials/header.ejs", {title}) %>
 
-<h1><%= title %></h1>
-
-<a href = add>Add Member</a>
+<a href = <%= `${family.slug}/add` %>>Add Member</a>
 
 <%- include("../partials/footer.ejs") %>
