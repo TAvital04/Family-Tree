@@ -16,10 +16,6 @@ import {Member} from "../models/memberModel.js";
         return await Family.findOne({slug}).lean();
     }
 
-    const createMember = async (memberData) => {
-        return await Member.create(memberData);
-    }
-
 // Delete a family
     const deleteFamily = async (id) => {
         return await Family.findByIdAndDelete(id).lean();
@@ -31,7 +27,6 @@ export default {
     createFamily,
 
     getOneFamilyBySlug,
-    createMember,
 
     deleteFamily
 }
