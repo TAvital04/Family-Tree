@@ -1,32 +1,39 @@
 import {Family} from "../models/familyModel.js";
-import {Member} from "../models/memberModel.js";
 
-// Open a list of families
-    const getAllFamilies = async (id) => {
-        return await Family.find({user: id}).lean();
-    }
-
-// Create a family
+// Create
     const createFamily = async (familyData) => {
         return await Family.create(familyData);
     }
 
-// Edit a family
+// Read
+    const getAllFamilies = async (id) => {
+        return await Family.find({user: id}).lean();
+    }
+
     const getOneFamilyBySlug = async ({slug}) => {
         return await Family.findOne({slug}).lean();
     }
 
-// Delete a family
+// Update
+    const updateFamily = async (id, familyData) => {
+        return await Family.findOneAndUpdate({_id: id}, familyData, {
+            new: true,
+            runValidators: true
+        }).lean();
+    }
+
+// Delete 
     const deleteFamily = async (id) => {
         return await Family.findByIdAndDelete(id).lean();
     }
 
 export default {
-    getAllFamilies,
-
     createFamily,
 
+    getAllFamilies,
     getOneFamilyBySlug,
+
+    updateFamily,
 
     deleteFamily
 }
