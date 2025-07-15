@@ -1,4 +1,5 @@
 import familyHandler from "../handlers/familyHandler.js";
+import personHandler from "../handlers/personHandler.js";
 
 // Open a list of families
     const getFamilies = async (req, res) => {
@@ -43,15 +44,18 @@ import familyHandler from "../handlers/familyHandler.js";
     const addMember = async (req, res) => {
         res.render("families/memberForm", {
             title: "Add member",
-            action: `/families/${req.params.slug}/add`
+            action: `/families/${req.params.slug}/add`,
+            member: {
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthday: ""
+            }
         });
     }
     const createMember = async (req, res) => {
-        const memberData = {
-            ...req.body,
-            user: req.user._id
-        }
-        const member = await familyHandler.createMember(memberData);
+        const personData = {...req.body};
+        const person = await personHandler.createPerson;
 
         res.redirect(`/families/${req.params.slug}`);
     }

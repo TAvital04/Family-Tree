@@ -1,0 +1,45 @@
+<%- include("../partials/header.ejs", {title}) %>
+
+<form
+    action = "<%= action %>"
+    method = "POST"
+>
+    <!--First name-->
+    <input
+        type = "text"
+        name = "firstname"
+        placeholder = "Enter first name"
+        value = "<%= member?.person?.firstname || '' %>"
+    >
+
+    <!--Last name-->
+    <input
+        type = "text"
+        name = "lastname"
+        placeholder = "Enter last name"
+        value = "<%= member?.person?.lastname || '' %>"
+    >
+
+    <!--Gender-->
+    <select 
+        name = "gender" 
+        value = "<%= member?.person?.gender || '' %>"
+    >
+        <option value = "Select gender">Select gender</option>
+        <option value = "Male">Male</option>
+        <option value = "Female">Female</option>
+        <option value = "Other/Prefer not to say">Other/Prefer not to say</option>  
+    </select>
+
+    <!--Birthday-->
+    <input
+        type = "date"
+        name = "birthday"
+        value = "<%= member?.person?.birthday || '' %>"
+    >
+
+    <!--Submit-->
+    <button type = "submit"></button>
+</form>
+
+<%- include("../partials/footer.ejs") %>

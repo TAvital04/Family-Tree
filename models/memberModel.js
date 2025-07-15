@@ -4,10 +4,6 @@ import GitHubSlugger from "github-slugger";
 const slugger = new GitHubSlugger();
 
 const memberSchema = new mongoose.Schema({
-    title: {
-        type: String
-    },
-
     person: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Person"
@@ -30,15 +26,15 @@ const memberSchema = new mongoose.Schema({
 });
 
 memberSchema.pre("save", function (next) {
-    if(!this.title || this.title.trim() === "") {
-        this.title = "Unititled Member";
+    if(!this.person.firstname || this.person.firstname.trim() === "") {
+        this.person.firstname = "Unititled Member";
     }
 
-    if(!this.isModified("title")) {
+    if(!this.person.isModified("firstname")) {
         return next();
     }
 
-    this.slug = slugger.slug(this.title);
+    this.slug = slugger.slug(this.person.firstname);
     next();
 });
 

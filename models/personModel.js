@@ -6,14 +6,12 @@ const slugger = new GitHubSlugger();
 const personSchema = new mongoose.Schema({
     firstname: {
         type: String,
-        required: [true, "First name is required"],
-        maxlength: [20, "First name max length is 20 characters"]
+        default: "Unnamed"
     },
 
     lastname: {
         type: String,
-        required: [true, "Last name is required"],
-        maxlength: [30, "Last name max length is 50 characters"]
+        default: "Member"
     },
 
     gender: {

@@ -4,3 +4,7 @@ import {Person} from "../models/personModel.js";
     const createPerson = async (personData) => {
         return await Person.create(personData);
     }
+
+export default {
+    createPerson
+}

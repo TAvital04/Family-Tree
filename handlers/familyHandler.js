@@ -1,4 +1,5 @@
 import {Family} from "../models/familyModel.js";
+import {Member} from "../models/memberModel.js";
 
 // Open a list of families
     const getAllFamilies = async (id) => {
@@ -15,14 +16,8 @@ import {Family} from "../models/familyModel.js";
         return await Family.findOne({slug}).lean();
     }
 
-    const getOneFamily = async ({id}) => {
-        return await Family.findOne({_id: id}).lean();
-    }
-    const updateFamily = async (id, familyData) => {
-        return await Family.findOneAndUpdate({_id: id}, familyData, {
-            new: true,
-            runValidators: true
-        }).lean();
+    const createMember = async (memberData) => {
+        return await Member.create(memberData);
     }
 
 // Delete a family
@@ -36,8 +31,7 @@ export default {
     createFamily,
 
     getOneFamilyBySlug,
-    getOneFamily,
-    updateFamily,
+    createMember,
 
     deleteFamily
 }
