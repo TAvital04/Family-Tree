@@ -7,14 +7,7 @@ import {catchErrors} from "../handlers/errorHandlers.js";
 
 export const familyRouter = Router();
 
-// Open a list of families
-    familyRouter.get(
-        "/",
-        authController.isAuthenticated,
-        catchErrors(familyController.getFamilies)
-    );
-
-// Add a new family
+// Create
     familyRouter.get(
         "/add",
         authController.isAuthenticated,
@@ -25,23 +18,29 @@ export const familyRouter = Router();
         catchErrors(familyController.createFamily)
     );
 
-// Enter a family page
+// Read
+    familyRouter.get(
+        "/",
+        authController.isAuthenticated,
+        catchErrors(familyController.getFamilies)
+    );
     familyRouter.get(
         "/:slug",
         familyController.getFamilyBySlug
     );
 
+// Update
     familyRouter.get(
-        "/:slug/add",
+        "/:slug/edit",
         authController.isAuthenticated,
-        catchErrors(familyController.addMember)
+        catchErrors(familyController.editFamilyBySlug)
     );
-    familyRouter.post(
-        "/:slug/add",
-        catchErrors(familyController.createMember)
+    familyRouter.get(
+        "/:slug/edit",
+        familyController.updateFamilyBySlug
     );
 
-// Delete a family
+// Delete
     familyRouter.delete(
         "/:id/delete",
         authController.isAuthenticated,
