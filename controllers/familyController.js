@@ -1,12 +1,9 @@
 import familyHandler from "../handlers/familyHandler.js";
+import familyRenderer from "../renderers/familyRenderer.js";
 
 // Create
     const addFamily = async (req, res) => {
-        res.render("families/familyForm", {
-            title: "Add Family",
-            action: "/families/add",
-            family: ""
-        });
+        familyRenderer.addFamily(res);
     }
     const createFamily = async (req, res) => {
         const familyData = {
@@ -15,41 +12,31 @@ import familyHandler from "../handlers/familyHandler.js";
         }
         const family = await familyHandler.createFamily(familyData);
 
-        res.redirect("/families");
+        familyRenderer.createFamily(res);
     }
 
 // Read
     const getFamilies = async (req, res) => {
         const families = await familyHandler.getAllFamilies(req.user._id);
 
-        res.render("families/allFamilies", {
-            title: "Families",
-            families
-        });
+        familyRenderer.getFamilies(res, families);
     }
 
-    const getFamilyBySlug = async (req, res, next) => {
+    const getFamily = async (req, res, next) => {
         const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
 
         if(!family) return next();
 
-        res.render("families/viewFamily", {
-            title: family.title,
-            family
-        });
+        familyRenderer.getFamily(family);
     }
 
 // Update
-    const editFamilyBySlug = async (req, res, next) => {
+    const editFamily = async (req, res, next) => {
         const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
 
         if(!family) return next();
 
-        res.render("families/familyForm", {
-            title: "Edit Family",
-            action: `/families/${req.params.slug}/edit`,
-            family
-        });
+        familyRenderer.editFamily(req, res, family);
     }
     const updateFamily = async (req, res, next) => {
         const id = req.body._id;
@@ -57,7 +44,7 @@ import familyHandler from "../handlers/familyHandler.js";
 
         const family = await familyHandler.updateFamily(id, familyData);
 
-        res.redirect(`/families/${req.params.slug}`);
+        familyRenderer.updateFamily(req, res);
     }
 
 // Delete
@@ -65,7 +52,7 @@ import familyHandler from "../handlers/familyHandler.js";
         const id = req.params.id;
         const family = await familyHandler.deleteFamily(id);
 
-        res.redirect("/families");
+        familyRenderer.deleteFamily(res);
     }
 
 export default {
@@ -73,9 +60,9 @@ export default {
     createFamily,
 
     getFamilies,
-    getFamilyBySlug,
+    getFamily,
 
-    editFamilyBySlug,
+    editFamily,
     updateFamily,
 
     deleteFamily
