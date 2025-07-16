@@ -1,21 +1,17 @@
 <%- include("../partials/header.ejs", {title}) %>
 
-<div>
-    <form
-        action = "<%= action %>"
-        method = "POST"
+<form
+    action = "<%= action %>"
+    method = "POST"
+>
+    <input
+        type = "text"
+        name = "title"
+        placeholder = "Enter family title"
+        value = "<%= family?.title || '' %>"
     >
-        <!--Title-->
-        <input
-            type = "text"
-            name = "title"
-            placeholder = "Enter family title"
-            value = "<%= family?.title || '' %>"
-        >
 
-        <!--Content-->
-        <button type = "submit"></button>
-    </form>
-</div>
+    <button type = "submit"></button>
+</form>
 
-<%- include("../partials/footer.ejs") %>
+<%- include("../partials/footer.ejs", {scripts: undefined}) %>

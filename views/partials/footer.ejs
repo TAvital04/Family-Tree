@@ -1,4 +1,7 @@
     </body>
     
     <script src = "/modules/windowSize.js"></script>
+    <% scripts?.map((script) => { %>
+        <script src = "<%=`${script}`%>"></script>
+    <% }) %>
 </html>

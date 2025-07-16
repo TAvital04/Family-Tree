@@ -1,5 +1,19 @@
 <%- include("../partials/header.ejs", {title}) %>
 
+<h1><%= title %></h1>
+
 <a href = <%= `${family.slug}/add` %>>Add Member</a>
 
-<%- include("../partials/footer.ejs") %>
+<% getMembers.map(member => { %>
+    <%- include("../components/listmember.ejs", {member}) %>
+<% }) %>
+
+<% 
+    const scripts = {
+        scripts: [
+        "/modules/tree.js"
+        ]
+    }
+%>
+
+<%- include("../partials/footer.ejs", scripts) %>

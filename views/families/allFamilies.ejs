@@ -1,29 +1,20 @@
 <!--Header-->
 <%- include("../partials/header.ejs", {title}) %>
 
-<!--Body-->
-    <!--Logout button-->
-    <form
-        action = "users/logout"
-        method = "POST"
-    >
-        <button type = "submit">Log Out</button>
-    </form>
+<form
+    action = "users/logout"
+    method = "POST"
+>
+    <button type = "submit">Log Out</button>
+</form>
 
-    <!--List of familes-->
-    <div>
-        <!--Heading-->
-        <div>
-            <h1>Families</h1>
+<h1><%= title %></h1>
 
-            <a href = "/families/add">Add</a>
-        </div>
+<a href = "/families/add">Add</a>
 
-        <!--Body-->
-        <% families.map(family => { %>
-            <%- include("../components/listFamily.ejs", {family}) %>
-        <% }) %>
-    </div>
+<% families.map(family => { %>
+    <%- include("../components/listFamily.ejs", {family}) %>
+<% }) %>
 
 <!--Footer-->
-<%- include("../partials/footer.ejs") %>
+<%- include("../partials/footer.ejs", {scripts: undefined}) %>
