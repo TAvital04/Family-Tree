@@ -8,10 +8,10 @@ const familySchema = new mongoose.Schema({
         type: String,
     },
 
-    node: {
+    root: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Member"
-    },
+        },
 
     slug: {
         type: String
@@ -20,6 +20,11 @@ const familySchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+
+    empty: {
+        type: Boolean,
+        default: true
     }
 });
 

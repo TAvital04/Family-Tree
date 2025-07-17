@@ -27,7 +27,7 @@ import familyRenderer from "../renderers/familyRenderer.js";
 
         if(!family) return next();
 
-        familyRenderer.getFamily(family);
+        familyRenderer.getFamily(res, family);
     }
 
 // Update

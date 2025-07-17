@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "tree.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest"
   },
   "keywords": [],
   "author": "",
@@ -29,5 +29,12 @@
     "session": "^0.1.0",
     "url": "^0.11.4",
     "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.4",
+    "jest": "^30.0.4",
+    "supertest": "^7.1.3"
   }
 }

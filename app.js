@@ -59,5 +59,5 @@
     app.use("/", router);
 
 // Errors
-    app.use(notFound);
+    //app.use(notFound);
     app.use(flashValidationErrors);
