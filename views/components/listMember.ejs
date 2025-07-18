@@ -1,0 +1,12 @@
+<div>
+    <a href = "/families/<%= family.slug %>/<%= member.slug %>">
+        <%= member.firstname %> <%= member.lastname %>
+    </a>
+
+    <form
+        action = "/families/<%= family._id %>/<%= member._id %>/delete?_method=DELETE"
+        method = "POST"
+    >
+        <button type = "submit">Delete</button>
+    </form>
+</div>

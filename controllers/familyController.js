@@ -1,5 +1,6 @@
 import familyHandler from "../handlers/familyHandler.js";
 import familyRenderer from "../renderers/familyRenderer.js";
+import memberHandler from "../handlers/memberHandler.js";
 
 // Create
     const addFamily = async (req, res) => {
@@ -24,10 +25,14 @@ import familyRenderer from "../renderers/familyRenderer.js";
 
     const getFamily = async (req, res, next) => {
         const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
+        const root = await memberHandler.getOneMemberById({id: family.root._id});
 
         if(!family) return next();
 
-        familyRenderer.getFamily(res, family);
+        let members = [];
+        members = root.getDescendants(members);
+
+        familyRenderer.getFamily(res, family, members);
     }
 
 // Update

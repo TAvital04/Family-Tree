@@ -18,15 +18,7 @@
         });
     }
 
-    const getFamily = (res, family) => {
-        const members = [];
-        
-        if(family.root) {
-            members = family.root.getDescendants(members);
-        }
-            
-        members.forEach((member) => console.log(member.member.firstname));
-
+    const getFamily = (res, family, members) => {
         res.render("families/viewFamily", {
             title: family.title,
             family,
