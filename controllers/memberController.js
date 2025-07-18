@@ -1,18 +1,9 @@
 import memberHandler from "../handlers/memberHandler.js";
-import familyHandler from "../handlers/familyHandler.js";
+import memberRenderer from "../renderers/memberRenderer.js";
 
 // Create
     const addMemberToRoot = async (req, res) => {
-        res.render("families/memberForm", {
-            title: "Add Member",
-            action: `/families/${req.params.familySlug}/add`,
-            member: {
-                firstname: "",
-                lastname: "",
-                gender: "",
-                birthday: ""
-            }
-        });
+        memberRenderer.addMemberToRoot(req, res);
     }
     const createMemberToRoot = async (req, res) => {
         const memberData = {
@@ -21,7 +12,7 @@ import familyHandler from "../handlers/familyHandler.js";
         };
         await memberHandler.createMemberToRoot(memberData);
 
-        res.redirect(`/families/${req.params.familySlug}`);
+        memberRenderer.createMemberToRoot(req, res);
     }
 
 // Read
@@ -30,39 +21,31 @@ import familyHandler from "../handlers/familyHandler.js";
 
         if(!member) return next();
 
-        res.render("families/viewMember", {
-            title: `${member.firstname} ${member.lastname}`,
-            member
-        });
+        memberRenderer.getMemberBySlug(res, member);
     }
 
 // Update
     const editMember = async (req, res) => {
         const member = await memberHandler.getOneMember({id: req.params.id});
 
-        res.render("/families/memberForm", {
-            title: "Edit Member",
-            action: `/families/${req.params.familySlug}/${req.params.memberSlug}/edit`,
-            member
-        });
+        memberRenderer.editMember(res, req, member);
     }
     const updateMember = async (req, res) => {
         const id = req.params.id;
         const memberData = req.body;
 
-        const member = await memberHandler.updateMember(id, memberData);
+        await memberHandler.updateMember(id, memberData);
 
-        const memberFamily = req.body.familyId;
-        res.redirect(`/families/:${memberFamily}/:${id}`);
+        memberRenderer.updateMember(req, res);
     }
 
 // Delete
     const deleteMember = async (req, res) => {
         const id = req.params.id;
-        const member = await memberHandler.deleteMember(id);
+        
+        await memberHandler.deleteMember(id);
 
-        const memberFamily = req.body.familyId;
-        res.redirect(`/families/:${memberFamily}`);
+        memberRenderer.deleteMember(req, res);
     }
 
 
