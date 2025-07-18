@@ -78,4 +78,51 @@ memberSchema.methods.getDescendants = function(result)
     return result;
 }
 
+memberSchema.methods.insertRoot = function(family)
+/*
+    This is a member that accepts a member object and a family and adds that member
+    to the family's root. An added nuance to this is that if the root is full,
+    the member in the root has to be added as a descendant to the new member.
+*/
+{
+    const prevRoot = family.root;
+
+    this.insertDescendant(prevRoot._id);
+
+    family.root = this._id;
+}
+
+memberSchema.methods.insertDescendant = function(descendant)
+/*
+    This function will search for the parent node in the family tree and 
+    add the descendant to the descendant sarray as an ID that points to the new member.
+*/
+{
+    //TODO: ORDER BY DATE OF BIRTH
+
+    this.descendants.push(descendant._id);
+}
+
+memberSchema.methods.find = function(id, found) 
+/*
+    This function will recursively traverse the tree in order to find and return
+    a node with the same id as the one sent to it.
+*/
+{
+    if(found) return found;
+
+    if(this.id_ === id) {
+        found = this._id;
+        return found;
+    }
+
+    node.descendants.forEach((descendant) => {
+        if(found) return found;
+
+        descendant.find(id, found);
+    });
+
+    return found;
+}
+
 export const Member = mongoose.model("Member", memberSchema);

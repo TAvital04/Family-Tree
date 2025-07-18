@@ -21,12 +21,10 @@ import familyHandler from "../handlers/familyHandler.js";
         };
         const member = await memberHandler.createMember(memberData);
         
-        const slug = req.params.familySlug;
+        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.familySlug});
+        member.insertRoot(family);
 
-        const family = await familyHandler.getOneFamilyBySlug({slug});
-        family.root = member._id;
-
-        res.redirect(`/families/${slug}`);
+        res.redirect(`/families/${req.params.familySlug}`);
     }
 
 // Read
