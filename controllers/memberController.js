@@ -1,7 +1,8 @@
 import memberHandler from "../handlers/memberHandler.js";
+import familyHandler from "../handlers/familyHandler.js";
 
 // Create
-    const addMember = async (req, res) => {
+    const addMemberToRoot = async (req, res) => {
         res.render("families/memberForm", {
             title: "Add Member",
             action: `/families/${req.params.familySlug}/add`,
@@ -13,14 +14,19 @@ import memberHandler from "../handlers/memberHandler.js";
             }
         });
     }
-    const createMember = async (req, res) => {
+    const createMemberToRoot = async (req, res) => {
         const memberData = {
             ...req.body,
             user: req.user._id
         };
         const member = await memberHandler.createMember(memberData);
+        
+        const slug = req.params.familySlug;
 
-        res.redirect(`/families/${req.params.familySlug}`);
+        const family = await familyHandler.getOneFamilyBySlug({slug});
+        family.root = member._id;
+
+        res.redirect(`/families/${slug}`);
     }
 
 // Read
@@ -67,8 +73,8 @@ import memberHandler from "../handlers/memberHandler.js";
 
 
 export default {
-    addMember,
-    createMember,
+    addMemberToRoot,
+    createMemberToRoot,
 
     getMemberBySlug,
 

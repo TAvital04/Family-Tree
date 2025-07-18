@@ -20,7 +20,7 @@
 
     const getFamily = (res, family) => {
         const members = [];
-
+        
         if(family.root) {
             members = family.root.getDescendants(members);
         }

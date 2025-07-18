@@ -11,11 +11,11 @@ export const memberRouter = Router({mergeParams: true});
     memberRouter.get(
         "/add",
         authController.isAuthenticated,
-        catchErrors(memberController.addMember)
+        catchErrors(memberController.addMemberToRoot)
     );
     memberRouter.post(
         "/add",
-        catchErrors(memberController.createMember)
+        catchErrors(memberController.createMemberToRoot)
     );
 
 // Read

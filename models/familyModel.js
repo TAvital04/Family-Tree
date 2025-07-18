@@ -10,8 +10,9 @@ const familySchema = new mongoose.Schema({
 
     root: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "Member"
-        },
+        ref: "Member",
+        default: undefined
+    },
 
     slug: {
         type: String
@@ -21,11 +22,6 @@ const familySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-
-    empty: {
-        type: Boolean,
-        default: true
-    }
 });
 
 familySchema.pre("save", function (next) {
