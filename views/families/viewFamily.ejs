@@ -5,7 +5,9 @@
 <a href = <%= `${family.slug}/add` %>>Add Member</a>
 
 <% members.forEach(member => { %>
-    <%- include("../components/listMember.ejs", {family, member}) %>
+    <% if(member) { %>
+        <%- include("../components/listMember.ejs", {family, member}) %>
+    <% } %>
 <% }) %>
 
 <%- include("../partials/footer.ejs", {scripts: undefined}) %>

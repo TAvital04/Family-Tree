@@ -1,7 +1,7 @@
 import {Member} from "../models/memberModel.js";
 
 // Create
-    const createMemberToRoot = async (memberData) => {
+    const createMember = async (memberData) => {
         return await Member.create(memberData);
     }
 
@@ -27,7 +27,7 @@ import {Member} from "../models/memberModel.js";
     }
 
 export default {
-    createMemberToRoot,
+    createMember,
 
     getOneMemberBySlug,
     getOneMemberById,

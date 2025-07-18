@@ -25,18 +25,18 @@ export const familyRouter = Router();
         catchErrors(familyController.getFamilies)
     );
     familyRouter.get(
-        "/:slug",
+        "/:familySlug",
         familyController.getFamily
     );
 
 // Update
     familyRouter.get(
-        "/:slug/edit",
+        "/:familySlug/edit",
         authController.isAuthenticated,
         catchErrors(familyController.editFamily)
     );
     familyRouter.post(
-        "/:slug/edit",
+        "/:familySlug/edit",
         familyController.updateFamily
     );
 

@@ -90,7 +90,7 @@ memberSchema.methods.insertRoot = async function (family)
     if(prevRoot) this.insertDescendant(prevRoot._id);
 
     family.root = this._id;
-  
+    
     await family.save();
 }
 

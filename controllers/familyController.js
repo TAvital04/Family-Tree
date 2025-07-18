@@ -32,6 +32,8 @@ import memberHandler from "../handlers/memberHandler.js";
         let members = [];
         members = root.getDescendants(members);
 
+        console.log(members);
+
         familyRenderer.getFamily(res, family, members);
     }
 

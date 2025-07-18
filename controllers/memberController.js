@@ -1,5 +1,6 @@
 import memberHandler from "../handlers/memberHandler.js";
 import memberRenderer from "../renderers/memberRenderer.js";
+import familyHandler from "../handlers/familyHandler.js";
 
 // Create
     const addMemberToRoot = async (req, res) => {
@@ -10,7 +11,10 @@ import memberRenderer from "../renderers/memberRenderer.js";
             ...req.body,
             user: req.user._id
         };
-        await memberHandler.createMemberToRoot(memberData);
+        const member = await memberHandler.createMember(memberData);
+
+        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
+        await member.insertRoot(family);
 
         memberRenderer.createMemberToRoot(req, res);
     }
