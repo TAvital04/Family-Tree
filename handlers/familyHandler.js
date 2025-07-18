@@ -11,7 +11,7 @@ import {Family} from "../models/familyModel.js";
     }
 
     const getOneFamilyBySlug = async ({slug}) => {
-        return await Family.findOne({slug}).lean();
+        return await Family.findOne({slug});
     }
 
 // Update

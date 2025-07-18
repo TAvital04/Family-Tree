@@ -56,7 +56,7 @@ memberSchema.pre("save", function (next) {
     next();
 });
 
-memberSchema.methods.getDescendants = function(result)
+memberSchema.methods.getDescendants = function (result)
 /*
     This method accepts a member object and an array and returns the result
     array with all the descendants that the member has. 
@@ -78,21 +78,23 @@ memberSchema.methods.getDescendants = function(result)
     return result;
 }
 
-memberSchema.methods.insertRoot = function(family)
+memberSchema.methods.insertRoot = async function (family)
 /*
     This is a member that accepts a member object and a family and adds that member
     to the family's root. An added nuance to this is that if the root is full,
     the member in the root has to be added as a descendant to the new member.
 */
-{
+{    
     const prevRoot = family.root;
 
-    this.insertDescendant(prevRoot._id);
+    if(prevRoot) this.insertDescendant(prevRoot._id);
 
     family.root = this._id;
+  
+    await family.save();
 }
 
-memberSchema.methods.insertDescendant = function(descendant)
+memberSchema.methods.insertDescendant = function (descendant)
 /*
     This function will search for the parent node in the family tree and 
     add the descendant to the descendant sarray as an ID that points to the new member.
@@ -103,7 +105,7 @@ memberSchema.methods.insertDescendant = function(descendant)
     this.descendants.push(descendant._id);
 }
 
-memberSchema.methods.find = function(id, found) 
+memberSchema.methods.find = function (id, found) 
 /*
     This function will recursively traverse the tree in order to find and return
     a node with the same id as the one sent to it.

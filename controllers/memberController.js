@@ -19,10 +19,7 @@ import familyHandler from "../handlers/familyHandler.js";
             ...req.body,
             user: req.user._id
         };
-        const member = await memberHandler.createMember(memberData);
-        
-        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.familySlug});
-        member.insertRoot(family);
+        await memberHandler.createMemberToRoot(memberData);
 
         res.redirect(`/families/${req.params.familySlug}`);
     }

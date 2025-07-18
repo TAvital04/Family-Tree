@@ -1,7 +1,7 @@
 import {Member} from "../models/memberModel.js";
 
 // Create
-    const createMember = async (memberData) => {
+    const createMemberToRoot = async (memberData) => {
         return await Member.create(memberData);
     }
 
@@ -9,7 +9,7 @@ import {Member} from "../models/memberModel.js";
     const getOneMemberBySlug = async ({slug}) => {
         return await Member.findOne({slug}).lean();
     }
-    const getOneMember = async ({id}) => {
+    const getOneMemberById = async ({id}) => {
         return await Member.findOne({_id: id}).lean();
     }
 
@@ -27,10 +27,10 @@ import {Member} from "../models/memberModel.js";
     }
 
 export default {
-    createMember,
+    createMemberToRoot,
 
     getOneMemberBySlug,
-    getOneMember,
+    getOneMemberById,
     
     updateMember,
 
