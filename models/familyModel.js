@@ -85,7 +85,7 @@ familySchema.methods.deleteFamily = async function ()
     }
 }
 
-familySchema.methods.deleteMember = async function ({...parameters})
+familySchema.methods.deleteMemberAndDescendants = async function ({...parameters})
 /*
 
 */

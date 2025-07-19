@@ -20,16 +20,25 @@ import familyHandler from "../handlers/familyHandler.js";
     }
 
 // Delete
-    const deleteMember = async (req, res) => {
-        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+    const deleteMemberAndDescendants = async (req, res) => 
+    /*
+        - Find a Member from the Family that the request is pointing to
 
-        await family.deleteMember({id: req.params.memberTarget});
+        - Delete the Member and all of its descendants
+    */
+    {
+        // Get the Family that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
-        memberRenderer.deleteMember(res, family.slug);
+        // Find and delete the member that the request is looking for
+            await family.deleteMemberAndDescendants({id: req.params.memberTarget});
+
+        // Render the request
+            memberRenderer.deleteMember(res, family.slug);
     }
 
 export default {
-    getMemberBySlug,
-    
-    deleteMember
+    editMember,
+
+    deleteMemberAndDescendants
 }

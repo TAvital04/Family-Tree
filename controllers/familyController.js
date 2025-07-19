@@ -91,7 +91,7 @@ import memberHandler from "../handlers/memberHandler.js";
             the request is pointing to
     */
     {
-        // Get the data that the request is pointing to
+        // Get the Family that the request is pointing to
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Traverse the Family and delete every Member that it points to
