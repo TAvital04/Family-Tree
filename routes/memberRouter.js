@@ -18,7 +18,11 @@ export const memberRouter = Router({mergeParams: true});
     );
 
 // Update
-
+    memberRouter.get(
+        "/edit",
+        authController.isAuthenticated,
+        memberController.editMember
+    );
 
 // Delete
     memberRouter.delete(

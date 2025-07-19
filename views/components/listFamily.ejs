@@ -2,6 +2,13 @@
     <a href = "/families/<%= family.slug %>"><%= family.title %></a>
 
     <form
+        action = "/families/<%= family._id %>/edit"
+        method = "GET"
+    >
+        <button type = "submit">Edit</button>
+    </form>
+
+    <form
         action = "/families/<%= family._id %>/delete?_method=DELETE"
         method = "POST"
     >

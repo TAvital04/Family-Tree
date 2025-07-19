@@ -5,17 +5,19 @@ import familyHandler from "../handlers/familyHandler.js";
 // Create
 
 
-// Read
-    const getMemberBySlug = async (req, res, next) => {
-        const member = await memberHandler.getOneMember(req.params.memberTarget);
-        
-        if(!member) return next();
 
-        memberRenderer.getMemberBySlug(req, res, member);
-    }
 
 // Update
-
+    const editMember = async (req, res) =>
+    /*
+        - Render a form to edit a Member object
+    */
+    {
+        // Get the Family that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        
+        // Render the request
+    }
 
 // Delete
     const deleteMember = async (req, res) => {

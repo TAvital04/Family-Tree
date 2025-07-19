@@ -31,10 +31,6 @@ familySchema.pre("save", function (next) {
         this.title = "Untitled Family";
     }
 
-    if(!this.isModified("title")) {
-        return next();
-    }
-
     this.slug = slugger.slug(this.title);
     next();
 });

@@ -66,7 +66,7 @@ import memberHandler from "../handlers/memberHandler.js";
         // Render the request
             familyRenderer.editFamily(req, res, family);
     }
-    const updateFamily = async (req, res, next) => 
+    const updateFamily = async (req, res) => 
     /*
         - Get data to update a Family
     */
@@ -78,7 +78,7 @@ import memberHandler from "../handlers/memberHandler.js";
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Update the family contents
-            await familyHandler.updateFamily(family._id, familyData);
+            await familyHandler.updateFamily(family, familyData);
 
         // Render the request
             familyRenderer.updateFamily(req, res);

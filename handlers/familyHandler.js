@@ -22,11 +22,13 @@ import mongoose from "mongoose";
     };
 
 // Update
-    const updateFamily = async (id, familyData) => {
-        return await Family.findOneAndUpdate({_id: id}, familyData, {
+    const updateFamily = async (family, familyData) => {
+        await Family.findOneAndUpdate({_id: family._id}, familyData, {
             new: true,
             runValidators: true
-        }).lean();
+        });
+
+        await family.save();
     }
 
 // Delete 

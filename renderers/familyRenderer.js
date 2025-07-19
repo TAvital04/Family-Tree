@@ -47,12 +47,12 @@
     const editFamily = (req, res, family) => {
         res.render("families/familyForm", {
             title: "Edit Family",
-            action: `/families/${req.params.slug}/edit`,
+            action: `/families/${req.params.familyTarget}/edit`,
             family
         });
     }
     const updateFamily = (req, res) => {
-        res.redirect(`/families/${req.params.slug}`);
+        res.redirect(`/families`);
     }
 
 // Delete
