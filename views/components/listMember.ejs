@@ -1,6 +1,6 @@
 <div>
-    <a href = "/families/<%= req.familySlug %>/<%= req.memberSlug %>">
-        <%= member.firstname %> <%= member.lastname %>
+    <a href = "/families/<%= family.slug %>/<%= member.slug %>">
+        <%= member.member.firstname %> <%= member.member.lastname %>
     </a>
 
     <form

@@ -32,8 +32,16 @@ import memberHandler from "../handlers/memberHandler.js";
         if(!family) return next();
 
         if(root){          
+            let memberIds = [];
             let members = [];
-            members = await root.getDescendants(members);
+
+            memberIds = await root.getDescendants(memberIds);
+
+            let member;
+            for(const memberId of memberIds) {
+                member = await memberHandler.getOneMemberById({id: memberId});
+                members.push(member);
+            }
 
             familyRenderer.getFamily(req, res, family, members);
         } else {

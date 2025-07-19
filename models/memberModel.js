@@ -74,7 +74,6 @@ memberSchema.methods.getDescendants = async function (result)
 
     let temp;
     for(const descendant of this.descendants) {
-        console.log(descendant)
         temp = await memberHandler.getOneMemberById({id: descendant});
         await temp.getDescendants(result);
     }

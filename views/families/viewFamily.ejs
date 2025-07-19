@@ -4,12 +4,12 @@
 
 <a href = <%= `${req.params.familySlug}/addToRoot` %>>Add Member</a>
 
-<% if(members) { %>
-    <% members.forEach(member => { 
+<% if(members) { 
+    members.forEach(member => { 
         if(member) { %>
-            <%- include("../components/listMember.ejs", {req, family, member}) %>
+            <%- include("../components/listMember.ejs", {req, member}) %>
         <% } 
-    }) %>
-<% } %>
+    })
+} %>
 
 <%- include("../partials/footer.ejs", {scripts: undefined}) %>

@@ -12,7 +12,7 @@ export const memberRouter = Router({mergeParams: true});
 
 // Read
     memberRouter.get(
-        "/:memberSlug",
+        "/",
         catchErrors(memberController.getMemberBySlug)
     );
 
