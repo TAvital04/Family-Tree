@@ -4,9 +4,11 @@
 
 <p>Gender: <%= member.member.gender %></p>
 
-<p><%= member.member.birthday.toDateString() %></p>
+<% if(member.member.birthday) { %>
+    <p><%= member.member.birthday.toDateString() %></p>
+<% } %>
 
-<a href = <%= `/families/${req.params.familySlug}` %>>
+<a href = <%= `/families/${req.params.familyTarget}` %>>
     <button>Back to Family</button>
 </a>
 

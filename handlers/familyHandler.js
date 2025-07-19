@@ -23,13 +23,9 @@ import mongoose from "mongoose";
 
 // Update
     const updateFamily = async (family, familyData) => {
-        await Family.findOneAndUpdate({_id: family._id}, familyData, {
-            new: true,
-            runValidators: true
-        });
-
+        Object.assign(family, familyData);
         await family.save();
-    }
+    };
 
 // Delete 
     const deleteFamily = async (id) => {

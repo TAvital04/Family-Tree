@@ -38,14 +38,13 @@ import memberHandler from "../handlers/memberHandler.js";
     }
 
 // Read
-    const getFamily = async (req, res, next) =>
+    const getFamily = async (req, res) =>
     /*
         - Render all the Members of a Family
     */
     {
         // Get the Family object that the request is pointing to
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
-            if(!family) return next();
 
         // Get pointers to all of the Members in the Family
             const members = await family.getMembers();
@@ -55,7 +54,7 @@ import memberHandler from "../handlers/memberHandler.js";
     }
 
 // Update
-    const editFamily = async (req, res, next) => 
+    const editFamily = async (req, res) => 
     /*
         - Render a form to edit a Family object
     */

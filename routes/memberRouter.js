@@ -14,7 +14,7 @@ export const memberRouter = Router({mergeParams: true});
     memberRouter.get(
         "/",
         authController.isAuthenticated,
-        catchErrors(memberController.getMemberBySlug)
+        catchErrors(memberController.getMember)
     );
 
 // Update
@@ -23,10 +23,14 @@ export const memberRouter = Router({mergeParams: true});
         authController.isAuthenticated,
         memberController.editMember
     );
+    memberRouter.post(
+        "/edit",
+        memberController.updateMember
+    )
 
 // Delete
     memberRouter.delete(
-        "/delete",
+        "/deleteMemberAndDescendants",
         authController.isAuthenticated,
-        catchErrors(memberController.deleteMember)
+        catchErrors(memberController.deleteMemberAndDescendants)
     );

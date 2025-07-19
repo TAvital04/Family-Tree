@@ -4,7 +4,14 @@
     </a>
 
     <form
-        action = "/families/<%= family._id %>/<%= member._id %>/delete?_method=DELETE"
+        action = "/families/<%= family._id %>/<%= member._id %>/edit"
+        method = "GET"
+    >
+        <button type = "submit">Edit</button>
+    </form>
+
+    <form
+        action = "/families/<%= family._id %>/<%= member._id %>/deleteMemberAndDescendants?_method=DELETE"
         method = "POST"
     >
         <button type = "submit">Delete</button>

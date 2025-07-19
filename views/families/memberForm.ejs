@@ -9,7 +9,7 @@
         type = "text"
         name = "firstname"
         placeholder = "Enter first name"
-        value = "<%= member?.person?.firstname || '' %>"
+        value = "<%= member?.member?.firstname || '' %>"
     >
 
     <!--Last name-->
@@ -17,13 +17,13 @@
         type = "text"
         name = "lastname"
         placeholder = "Enter last name"
-        value = "<%= member?.person?.lastname || '' %>"
+        value = "<%= member?.member?.lastname || '' %>"
     >
 
     <!--Gender-->
     <select 
         name = "gender" 
-        value = "<%= member?.person?.gender || '' %>"
+        value = "<%= member?.member?.gender || '' %>"
     >
         <!-- <option value = "Select gender">Select gender</option> -->
         <option value = "Other/Prefer not to say">Other/Prefer not to say</option>  
@@ -35,7 +35,7 @@
     <input
         type = "date"
         name = "birthday"
-        value = "<%= member?.person?.birthday || '' %>"
+        value = "<%= member?.member?.birthday || '' %>"
     >
 
     <!--Submit-->

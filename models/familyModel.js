@@ -4,6 +4,7 @@ import GitHubSlugger from "github-slugger";
 const slugger = new GitHubSlugger();
 
 import memberHandler from "../handlers/memberHandler.js";
+import familyHandler from "../handlers/familyHandler.js";
 
 const familySchema = new mongoose.Schema({
     title: {
@@ -29,6 +30,10 @@ const familySchema = new mongoose.Schema({
 familySchema.pre("save", function (next) {
     if(!this.title || this.title.trim() === "") {
         this.title = "Untitled Family";
+    }
+
+    if(!this.isModified("title")) {
+        return next();
     }
 
     this.slug = slugger.slug(this.title);
@@ -72,6 +77,23 @@ familySchema.methods.getMembers = async function ()
     return backpack;
 }
 
+familySchema.methods.findOne = async function (...parameters)
+/*
+    - Call the Member model's findOne() to find a member in the family
+        that fits the criteria in the parameters
+*/
+{
+    let result;
+    
+    const root = await memberHandler.getOneMember(this.root);
+
+    if(root) {
+        result = await root.findOne(...parameters);
+    }
+
+    return result;
+}
+
 familySchema.methods.deleteFamily = async function ()
 /*
     - Call the Member model's function traverseReverse() to traverse all the Members
@@ -83,6 +105,8 @@ familySchema.methods.deleteFamily = async function ()
     if(root) {
         root.deleteMemberAndDescendants()
     }
+
+    familyHandler.deleteFamily(this._id);
 }
 
 familySchema.methods.deleteMemberAndDescendants = async function ({...parameters})
