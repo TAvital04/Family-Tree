@@ -7,7 +7,7 @@ import {Member} from "../models/memberModel.js";
 
 // Read
     const getOneMemberBySlug = async ({slug}) => {
-        return await Member.findOne({slug}).lean();
+        return await Member.findOne({slug});
     }
     const getOneMemberById = async ({id}) => {
         return await Member.findOne({_id: id});

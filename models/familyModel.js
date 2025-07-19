@@ -43,7 +43,7 @@ familySchema.methods.insertRoot = async function (newRoot)
     to the family's root. An added nuance to this is that if the root is full,
     the member in the root has to be added as a descendant to the new member.
 */
-{    
+{
     const prevRoot = this.root;
 
     if(prevRoot) newRoot.insertDescendant(prevRoot._id);

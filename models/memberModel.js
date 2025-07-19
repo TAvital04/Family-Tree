@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import GitHubSlugger from "github-slugger";
 const slugger = new GitHubSlugger();
 
+import memberHandler from "../handlers/memberHandler.js"
+
 const memberSchema = new mongoose.Schema({
     member: {
         firstname: {
@@ -56,7 +58,7 @@ memberSchema.pre("save", function (next) {
     next();
 });
 
-memberSchema.methods.getDescendants = function (result)
+memberSchema.methods.getDescendants = async function (result)
 /*
     This method accepts a member object and an array and returns the result
     array with all the descendants that the member has. 
@@ -68,12 +70,14 @@ memberSchema.methods.getDescendants = function (result)
     rank and then by age.
 */
 {
-    result.push(this.member._id)
-       
-    // Traversal
-    this.descendants.forEach((descendant) => {
-        descendant.getDescendants(result);
-    });
+    result.push(this._id)
+
+    let temp;
+    for(const descendant of this.descendants) {
+        console.log(descendant)
+        temp = await memberHandler.getOneMemberById({id: descendant});
+        await temp.getDescendants(result);
+    }
 
     return result;
 }
@@ -87,6 +91,8 @@ memberSchema.methods.insertDescendant = function (descendant)
     //TODO: ORDER BY DATE OF BIRTH
 
     this.descendants.push(descendant._id);
+
+    this.save();
 }
 
 memberSchema.methods.find = function (id, found) 

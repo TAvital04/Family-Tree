@@ -8,28 +8,32 @@ import memberHandler from "../handlers/memberHandler.js";
     }
     const createMemberToRoot = async (req, res) => {
         const memberData = {
-            ...req.body,
+            member: {
+                ...req.body,
+            },
             user: req.user._id
         };
 
-        const member = await memberHandler.createMember(memberData);
+        const newRootId = await memberHandler.createMember(memberData);
+        const newRoot = await memberHandler.getOneMemberById(newRootId);
+
         const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
 
-        await family.insertRoot(member);
+        await family.insertRoot(newRoot);
 
         familyRenderer.createMemberToRoot(req, res);
     }
 
 // Read
     const getFamily = async (req, res, next) => {
-        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.familySlug});
+        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.familySlug});        
         const root = await(memberHandler.getOneMemberById({id: family.root}));
 
         if(!family) return next();
 
-        if(root){            
+        if(root){          
             let members = [];
-            members = root.getDescendants(members);
+            members = await root.getDescendants(members);
 
             familyRenderer.getFamily(req, res, family, members);
         } else {
