@@ -10,8 +10,11 @@ import {Family} from "../models/familyModel.js";
         return await Family.find({user: id}).lean();
     }
 
-    const getOneFamilyBySlug = async ({familySlug}) => {
-        return await Family.findOne({familySlug});
+    const getOneFamilyBySlug = async (slug) => {
+        return await Family.findOne({slug});
+    }
+    const getOneFamilyById = async (familyId) => {
+        return await Family.findOne({_id: familyId});
     }
 
 // Update
@@ -32,6 +35,7 @@ export default {
 
     getAllFamilies,
     getOneFamilyBySlug,
+    getOneFamilyById,
 
     updateFamily,
 

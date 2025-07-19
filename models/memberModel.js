@@ -58,21 +58,11 @@ memberSchema.pre("save", function (next) {
     next();
 });
 
-memberSchema.methods.getDescendants = async function (result)
-/*
-    This method accepts a member object and an array and returns the result
-    array with all the descendants that the member has. 
-    
-    It is called recursively such that all of its descendants contribute 
-    to the array.
-
-    It in performed as in-order and the result will be sorted descending by 
-    rank and then by age.
-*/
-{
+memberSchema.methods.getDescendants = async function (result) {
     result.push(this._id)
 
     let temp;
+    
     for(const descendant of this.descendants) {
         temp = await memberHandler.getOneMemberById({id: descendant});
         await temp.getDescendants(result);
@@ -81,25 +71,13 @@ memberSchema.methods.getDescendants = async function (result)
     return result;
 }
 
-memberSchema.methods.insertDescendant = function (descendant)
-/*
-    This function will search for the parent node in the family tree and 
-    add the descendant to the descendant sarray as an ID that points to the new member.
-*/
-{
-    //TODO: ORDER BY DATE OF BIRTH
-
+memberSchema.methods.insertDescendant = function (descendant) {
     this.descendants.push(descendant._id);
 
     this.save();
 }
 
-memberSchema.methods.find = function (id, found) 
-/*
-    This function will recursively traverse the tree in order to find and return
-    a node with the same id as the one sent to it.
-*/
-{
+memberSchema.methods.find = function (id, found) {
     if(found) return found;
 
     if(this.id_ === id) {

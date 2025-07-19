@@ -37,13 +37,7 @@ familySchema.pre("save", function (next) {
     next();
 });
 
-familySchema.methods.insertRoot = async function (newRoot)
-/*
-    This is a member that accepts a member object and a family and adds that member
-    to the family's root. An added nuance to this is that if the root is full,
-    the member in the root has to be added as a descendant to the new member.
-*/
-{
+familySchema.methods.insertRoot = async function (newRoot) {
     const prevRoot = this.root;
 
     if(prevRoot) newRoot.insertDescendant(prevRoot._id);
@@ -51,6 +45,10 @@ familySchema.methods.insertRoot = async function (newRoot)
     this.root = newRoot._id;
     
     await this.save();
+}
+
+familySchema.methods.deleteMemberAndDescendants = async function (member) {
+
 }
 
 export const Family = mongoose.model("Family", familySchema);

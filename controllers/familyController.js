@@ -26,12 +26,13 @@ import memberHandler from "../handlers/memberHandler.js";
 
 // Read
     const getFamily = async (req, res, next) => {
-        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.familySlug});        
-        const root = await(memberHandler.getOneMemberById({id: family.root}));
+        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);        
 
         if(!family) return next();
 
-        if(root){          
+        if(family.root){          
+            const root = await(memberHandler.getOneMemberById(family.root));
+
             let memberIds = [];
             let members = [];
 
@@ -39,7 +40,7 @@ import memberHandler from "../handlers/memberHandler.js";
 
             let member;
             for(const memberId of memberIds) {
-                member = await memberHandler.getOneMemberById({id: memberId});
+                member = await memberHandler.getOneMemberById(memberId);
                 members.push(member);
             }
 
@@ -51,7 +52,7 @@ import memberHandler from "../handlers/memberHandler.js";
 
 // Update
     const editFamily = async (req, res, next) => {
-        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
+        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
 
         if(!family) return next();
 

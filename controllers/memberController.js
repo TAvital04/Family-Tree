@@ -7,7 +7,7 @@ import familyHandler from "../handlers/familyHandler.js";
 
 // Read
     const getMemberBySlug = async (req, res, next) => {
-        const member = await memberHandler.getOneMemberBySlug({slug: req.params.memberSlug});
+        const member = await memberHandler.getOneMemberBySlug(req.params.memberSlug);
         
         if(!member) return next();
 
@@ -18,15 +18,14 @@ import familyHandler from "../handlers/familyHandler.js";
 
 
 // Delete
-    const deleteMember = async (req, res) => {
-        const id = req.params.id;
-        
-        await memberHandler.deleteMember({id});
+    const deleteMember = async (req, res, next) => {
+        const family = await familyHandler.getOneFamilyById(req.params.familySlug);
+        const member = await memberHandler.getOneMemberById(req.params.memberSlug);
 
-        memberRenderer.deleteMember(req, res);
+        family.deleteMemberAndDescendants(member);
+
+        memberRenderer.deleteMember(res, family.slug);
     }
-
-
 
 export default {
     getMemberBySlug,

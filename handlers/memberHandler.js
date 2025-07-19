@@ -6,10 +6,10 @@ import {Member} from "../models/memberModel.js";
     }
 
 // Read
-    const getOneMemberBySlug = async ({slug}) => {
+    const getOneMemberBySlug = async (slug) => {
         return await Member.findOne({slug});
     }
-    const getOneMemberById = async ({id}) => {
+    const getOneMemberById = async (id) => {
         return await Member.findOne({_id: id});
     }
 
@@ -23,7 +23,7 @@ import {Member} from "../models/memberModel.js";
 
 // Delete
     const deleteMember = async (id) => {
-        return await Member.findByIdAndDelete(id).lean();
+        return await Member.findByIdAndDelete({_id: id}).lean();
     }
 
 export default {
