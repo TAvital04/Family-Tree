@@ -13,7 +13,7 @@
     const addMemberToRoot = (req, res) => {
         res.render("families/memberForm", {
             title: "Add Member",
-            action: `/families/${req.params.familySlug}/add`,
+            action: `/families/${req.params.familySlug}/addToRoot`,
             member: {
                 firstname: "",
                 lastname: "",
@@ -34,8 +34,9 @@
         });
     }
 
-    const getFamily = (res, family, members) => {
+    const getFamily = (req, res, family, members) => {
         res.render("families/viewFamily", {
+            req,
             title: family.title,
             family,
             members

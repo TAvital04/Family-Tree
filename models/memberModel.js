@@ -78,22 +78,6 @@ memberSchema.methods.getDescendants = function (result)
     return result;
 }
 
-memberSchema.methods.insertRoot = async function (family)
-/*
-    This is a member that accepts a member object and a family and adds that member
-    to the family's root. An added nuance to this is that if the root is full,
-    the member in the root has to be added as a descendant to the new member.
-*/
-{    
-    const prevRoot = family.root;
-
-    if(prevRoot) this.insertDescendant(prevRoot._id);
-
-    family.root = this._id;
-    
-    await family.save();
-}
-
 memberSchema.methods.insertDescendant = function (descendant)
 /*
     This function will search for the parent node in the family tree and 

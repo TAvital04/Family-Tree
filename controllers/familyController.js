@@ -11,27 +11,30 @@ import memberHandler from "../handlers/memberHandler.js";
             ...req.body,
             user: req.user._id
         };
-        const member = await memberHandler.createMember(memberData);
 
+        const member = await memberHandler.createMember(memberData);
         const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
-        await member.insertRoot(family);
+
+        await family.insertRoot(member);
 
         familyRenderer.createMemberToRoot(req, res);
     }
 
 // Read
     const getFamily = async (req, res, next) => {
-        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
-        const root = await memberHandler.getOneMemberById({id: family.root._id});
+        const family = await familyHandler.getOneFamilyBySlug({slug: req.params.familySlug});
+        const root = await(memberHandler.getOneMemberById({id: family.root}));
 
         if(!family) return next();
 
-        let members = [];
-        members = root.getDescendants(members);
+        if(root){            
+            let members = [];
+            members = root.getDescendants(members);
 
-        console.log(members);
-
-        familyRenderer.getFamily(res, family, members);
+            familyRenderer.getFamily(req, res, family, members);
+        } else {
+            familyRenderer.getFamily(req, res, family, undefined);
+        }
     }
 
 // Update

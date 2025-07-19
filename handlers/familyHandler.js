@@ -10,8 +10,8 @@ import {Family} from "../models/familyModel.js";
         return await Family.find({user: id}).lean();
     }
 
-    const getOneFamilyBySlug = async ({slug}) => {
-        return await Family.findOne({slug});
+    const getOneFamilyBySlug = async ({familySlug}) => {
+        return await Family.findOne({familySlug});
     }
 
 // Update

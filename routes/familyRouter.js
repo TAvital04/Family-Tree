@@ -21,7 +21,8 @@ export const familyRouter = Router({mergeParams: true});
 // Read
     familyRouter.get(
         "/",
-        familyController.getFamily
+        authController.isAuthenticated,
+        catchErrors(familyController.getFamily)
     );   
 
 // Update

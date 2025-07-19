@@ -2,12 +2,14 @@
 
 <h1><%= title %></h1>
 
-<a href = <%= `${family.slug}/addToRoot` %>>Add Member</a>
+<a href = <%= `${req.familySlug}/addToRoot` %>>Add Member</a>
 
-<% members.forEach(member => { %>
-    <% if(member) { %>
-        <%- include("../components/listMember.ejs", {family, member}) %>
-    <% } %>
-<% }) %>
+<% if(members) { %>
+    <% members.forEach(member => { 
+        if(member) { %>
+            <%- include("../components/listMember.ejs", {req, family, member}) %>
+        <% } 
+    }) %>
+<% } %>
 
 <%- include("../partials/footer.ejs", {scripts: undefined}) %>
