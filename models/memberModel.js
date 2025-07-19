@@ -24,7 +24,8 @@ const memberSchema = new mongoose.Schema({
         },
 
         birthday: {
-            type: Date
+            type: Date,
+            default: Date.now()
         }
     },
 
@@ -71,24 +72,24 @@ memberSchema.methods.getDescendants = async function (result) {
     return result;
 }
 
-memberSchema.methods.traverse = async function (operation, context = {})
+memberSchema.methods.traverse = async function (operation, backpack = {})
 /*
     - Traverse every descendent of a Member, and of their descendants, recursively,
         and perform the given operation on all of them
 */
 {
-    await operation(this, context);
+    await operation(this, backpack);
 
     for(const descendantId of this.descendants) {
         const descendant = await memberHandler.getOneMember(descendantId);
 
         if(descendant) {
-            await descendant.traverse(operation, context);
+            await descendant.traverse(operation, backpack);
         }
     }
 }
 
-memberSchema.methods.traverseReverse = async function (operation, context = {})
+memberSchema.methods.traverseReverse = async function (operation, backpack = {})
 /*
     - Traverse every descendent of a Member, and of their descendants, recursively,
         in reverse, and perform the given operation on all of them
@@ -98,34 +99,54 @@ memberSchema.methods.traverseReverse = async function (operation, context = {})
         const descendant = await memberHandler.getOneMember(descendantId);
 
         if(descendant) {
-            await descendant.traverseReverse(operation, context);
+            await descendant.traverseReverse(operation, backpack);
         }
     }
 
-    await operation(this, context);
+    await operation(this, backpack);
+}
+
+memberSchema.methods.deleteMemberAndDescendants = async function ()
+/*
+
+*/
+{
+    await this.traverseReverse(async (member) => {
+        await memberHandler.deleteMember(member._id);
+    });
+}
+
+memberSchema.methods.findOne = async function ({...parameters})
+/*
+
+*/
+{
+    const result = {result: null}
+
+    await this.traverse(async (member, backpack) => {
+        if(backpack.result) return;
+
+        let isMatch = true;
+
+        for(const key in parameters) {
+            if(member[key] != parameters[key]) {
+                isMatch = false;
+                break;
+            }
+        }
+
+        if(isMatch) {
+            backpack.result = member;
+        }
+    }, result)
+
+    return result.result;
 }
 
 memberSchema.methods.insertDescendant = function (descendant) {
     this.descendants.push(descendant._id);
 
     this.save();
-}
-
-memberSchema.methods.find = function (id, found) {
-    if(found) return found;
-
-    if(this.id_ === id) {
-        found = this._id;
-        return found;
-    }
-
-    node.descendants.forEach((descendant) => {
-        if(found) return found;
-
-        descendant.find(id, found);
-    });
-
-    return found;
 }
 
 export const Member = mongoose.model("Member", memberSchema);

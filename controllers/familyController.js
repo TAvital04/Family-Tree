@@ -28,7 +28,7 @@ import memberHandler from "../handlers/memberHandler.js";
             const newRoot = await memberHandler.createMember(memberData);
         
         // Receive the Family object that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familySlug);
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Add the new Member as a new root of the Family object
             await family.insertRoot(newRoot);
@@ -44,12 +44,11 @@ import memberHandler from "../handlers/memberHandler.js";
     */
     {
         // Get the Family object that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familySlug);        
-
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
             if(!family) return next();
 
         // Get pointers to all of the Members in the Family
-            const members = family.getMembers();
+            const members = await family.getMembers();
 
         // Render the request
             familyRenderer.getFamily(req, res, family, members);

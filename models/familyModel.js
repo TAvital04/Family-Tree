@@ -49,7 +49,7 @@ familySchema.methods.insertRoot = async function (member)
 {
     const prevRoot = this.root;
 
-    if(prevRoot) newRoot.insertDescendant(prevRoot._id);
+    if(prevRoot) member.insertDescendant(prevRoot._id);
 
     this.root = member._id;
     
@@ -63,17 +63,17 @@ familySchema.methods.getMembers = async function ()
         of their pointers
 */
 {
-    const members = [];
+    const backpack = [];
 
     const root = await memberHandler.getOneMember(this.root);
 
     if(root) {
-        await root.traverse((member, {members}) => {
-            members.push(member);
-        }, {members});
+        await root.traverse((member, {backpack}) => {
+            backpack.push(member);
+        }, {backpack});
     }
 
-    return members;
+    return backpack;
 }
 
 familySchema.methods.deleteFamily = async function ()
@@ -85,11 +85,21 @@ familySchema.methods.deleteFamily = async function ()
     const root = await memberHandler.getOneMember(this.root);
 
     if(root) {
-        await root.traverseReverse(async (member) => {
-            await memberHandler.deleteMember(member._id);
-        });
+        root.deleteMemberAndDescendants()
     }
+}
 
+familySchema.methods.deleteMember = async function ({...parameters})
+/*
+
+*/
+{
+    const root = await memberHandler.getOneMember(this.root);
+
+    if(root) {
+        const result = await root.findOne({...parameters});
+        result.deleteMemberAndDescendants();
+    }
 }
 
 export const Family = mongoose.model("Family", familySchema);

@@ -2,7 +2,7 @@
 
 <h1><%= title %></h1>
 
-<a href = <%= `${req.params.familySlug}/addToRoot` %>>Add Member</a>
+<a href = <%= `${req.params.familyTarget}/addToRoot` %>>Add Member</a>
 
 <% if(members) { 
     members.forEach(member => { 

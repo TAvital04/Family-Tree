@@ -1,4 +1,5 @@
 import {Family} from "../models/familyModel.js";
+import mongoose from "mongoose";
 
 // Create
     const createFamily = async (familyData) => {
@@ -6,13 +7,19 @@ import {Family} from "../models/familyModel.js";
     }
 
 // Read
-    const getOneFamily = async (target) => {
-        if(typeof target === String) {
-            return await Family.findOne({slug: target});
-        } else {
-            return await Family.findOne({_id: target});
-        }
+    const getAllFamilies = async (userId) => {
+        return await Family.find({user: userId}).lean();
     }
+
+    const getOneFamily = async (target) => {
+        if (mongoose.Types.ObjectId.isValid(target)) {
+            if (typeof target !== "string" || target.length === 24) {
+                return await Family.findOne({_id: target});
+            }
+        }
+
+        return await Family.findOne({slug: target});
+    };
 
 // Update
     const updateFamily = async (id, familyData) => {
@@ -30,6 +37,7 @@ import {Family} from "../models/familyModel.js";
 export default {
     createFamily,
 
+    getAllFamilies,
     getOneFamily,
 
     updateFamily,

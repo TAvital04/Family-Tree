@@ -1,4 +1,5 @@
 import {Member} from "../models/memberModel.js";
+import mongoose from "mongoose";
 
 // Create
     const createMember = async (memberData) => {
@@ -7,10 +8,10 @@ import {Member} from "../models/memberModel.js";
 
 // Read
     const getOneMember = async (target) => {
-        if(typeof target === String) {
-            return await Family.findOne({slug: target});
+        if(target instanceof mongoose.Types.ObjectId) {
+            return await Member.findOne({_id: target});
         } else {
-            return await Family.findOne({_id: target});
+            return await Member.findOne({slug: target});
         }
     }
 
