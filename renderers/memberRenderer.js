@@ -19,12 +19,12 @@
         });
     }
     const updateMember = (req, res) => {
-        res.redirect(`families/${familyTarget}`);
+        res.redirect(`/families/${req.params.familyTarget}`);
     }
 
 // Delete
     const deleteMember = (res, familyTarget) => {
-        res.redirect(`families/${familyTarget}`);
+        res.redirect(`/families/${familyTarget}`);
     }
 
 export default {

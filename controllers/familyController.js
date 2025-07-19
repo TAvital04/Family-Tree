@@ -3,14 +3,14 @@ import familyRenderer from "../renderers/familyRenderer.js";
 import memberHandler from "../handlers/memberHandler.js";
 
 // Create
-    const addMemberToRoot = async (req, res) => 
+    const addMemberAtRoot = async (req, res) => 
     /*
         Render a form that creates a new family member
     */
     {
-        familyRenderer.addMemberToRoot(req, res);
+        familyRenderer.addMemberAtRoot(req, res);
     }
-    const createMemberToRoot = async (req, res) => 
+    const createMemberAtRoot = async (req, res) => 
     /*
         - Get data for a new Member from a post request
         - This Member will occupy the root node of the Family object
@@ -27,7 +27,7 @@ import memberHandler from "../handlers/memberHandler.js";
         // Create a new Member from the provided data
             const newRoot = await memberHandler.createMember(memberData);
         
-        // Receive the Family object that the request is pointing to
+        // Get the Family object that the request is pointing to
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Add the new Member as a new root of the Family object
@@ -76,7 +76,7 @@ import memberHandler from "../handlers/memberHandler.js";
         // Get the Family that the request is pointing to
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
-        // Update the family contents
+        // Update the Family contents
             await familyHandler.updateFamily(family, familyData);
 
         // Render the request
@@ -101,8 +101,8 @@ import memberHandler from "../handlers/memberHandler.js";
     }
 
 export default {
-    addMemberToRoot,
-    createMemberToRoot,
+    addMemberAtRoot,
+    createMemberAtRoot,
 
     getFamily,
 

@@ -11,11 +11,11 @@ export const familyRouter = Router({mergeParams: true});
     familyRouter.get(
         "/addToRoot",
         authController.isAuthenticated,
-        catchErrors(familyController.addMemberToRoot)
+        catchErrors(familyController.addMemberAtRoot)
     );
     familyRouter.post(
         "/addToRoot",
-        catchErrors(familyController.createMemberToRoot)
+        catchErrors(familyController.createMemberAtRoot)
     );
 
 // Read

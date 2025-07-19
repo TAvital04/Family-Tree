@@ -10,7 +10,7 @@
         res.redirect("/families");
     }
 
-    const addMemberToRoot = (req, res) => {
+    const addMemberAtRoot = (req, res) => {
         res.render("families/memberForm", {
             title: "Add Member",
             action: `/families/${req.params.familyTarget}/addToRoot`,
@@ -22,7 +22,7 @@
             }
         });
     }
-    const createMemberToRoot = (req, res) => {
+    const createMemberAtRoot = (req, res) => {
         res.redirect(`/families/${req.params.familyTarget}`);
     }
 
@@ -63,8 +63,8 @@
 export default {
     addFamily,
     createFamily,
-    addMemberToRoot,
-    createMemberToRoot,
+    addMemberAtRoot,
+    createMemberAtRoot,
 
     getFamilies,
     getFamily,

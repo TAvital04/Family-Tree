@@ -8,25 +8,20 @@ import mongoose from "mongoose";
 
 // Read
     const getOneMember = async (target) => {
-        if(target instanceof mongoose.Types.ObjectId) {
-            return await Member.findOne({_id: target});
-        } else {
-            return await Member.findOne({slug: target});
+        if (mongoose.Types.ObjectId.isValid(target)) {
+            if (typeof target !== "string" || target.length === 24) {
+                return await Member.findOne({_id: target});
+            }
         }
-    }
+
+        return await Member.findOne({slug: target});
+    };
 
 // Update
-    const updateMember = async(id, memberData) => {
-        return await Member.findOneAndUpdate({_id: id}, memberData, {
-            new: true,
-            runValidators: true
-        }).lean();
-    }
-
-// Delete
-    const deleteMember = async (id) => {
-        return await Member.findByIdAndDelete({_id: id}).lean();
-    }
+    const updateMember = async (member, memberData) => {
+        Object.assign(member.member, memberData);
+        await member.save();
+    };
 
 export default {
     createMember,
@@ -34,6 +29,4 @@ export default {
     getOneMember,
     
     updateMember,
-
-    deleteMember
 }

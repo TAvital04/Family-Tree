@@ -3,6 +3,32 @@ import memberRenderer from "../renderers/memberRenderer.js";
 import familyHandler from "../handlers/familyHandler.js";
 
 // Create
+    const addMemberAtMember = async (req, res) => 
+    /*
+        Render a form that creates a new Family Member
+    */
+    {
+        memberRenderer.addMemberAtMember(req, res);
+    }
+    const createMemberAtMember = async (req, res) =>
+    /*
+        - Get data for a new Member from a post request
+        - This Member will be a new descendant of another member
+    */
+    {
+        // Get the data from the request
+            const memberData = {
+                member: {
+                    ...req.body
+                },
+                user: req.user._id
+            };
+        
+        // Create a new Member from the provided data
+            const newMember = await memberHandler.createMember(memberData);
+        
+        // Get the family object that the request is pointing to
+    }
 
 // Read
     const getMember = async (req, res) =>
@@ -40,7 +66,20 @@ import familyHandler from "../handlers/familyHandler.js";
         - Get data to update a Member
     */
     {
+        // Get the data from the request
+            const memberData = req.body;
+
+        // Get the Family that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
         
+        // Find the Member the request is looking for
+            const member = await family.findOne({id: req.params.memberTarget});
+
+        // Update the Member contents
+            await memberHandler.updateMember(member, memberData);
+        
+        // Render the request
+            memberRenderer.updateMember(req, res);
     }
 
 // Delete
