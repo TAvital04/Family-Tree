@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import GitHubSlugger from "github-slugger";
 const slugger = new GitHubSlugger();
 
+import memberHandler from "../handlers/memberHandler.js";
+
 const familySchema = new mongoose.Schema({
     title: {
         type: String,
@@ -37,17 +39,56 @@ familySchema.pre("save", function (next) {
     next();
 });
 
-familySchema.methods.insertRoot = async function (newRoot) {
+familySchema.methods.insertRoot = async function (member)
+/*
+    - Insert a Member at the root of the Family
+
+    - If the Family already has a root, replace the old root with the new
+        one, and then add the old root as a decendent of the new root
+*/
+{
     const prevRoot = this.root;
 
     if(prevRoot) newRoot.insertDescendant(prevRoot._id);
 
-    this.root = newRoot._id;
+    this.root = member._id;
     
     await this.save();
 }
 
-familySchema.methods.deleteMemberAndDescendants = async function (member) {
+familySchema.methods.getMembers = async function () 
+/*
+    - Call the Member model's function traverse() to traverse all the Members
+        that descend from the Family's root such that it returns an array 
+        of their pointers
+*/
+{
+    const members = [];
+
+    const root = await memberHandler.getOneMember(this.root);
+
+    if(root) {
+        await root.traverse((member, {members}) => {
+            members.push(member);
+        }, {members});
+    }
+
+    return members;
+}
+
+familySchema.methods.deleteFamily = async function ()
+/*
+    - Call the Member model's function traverseReverse() to traverse all the Members
+        that descend from the Family's root such that it deletes every member
+*/
+{
+    const root = await memberHandler.getOneMember(this.root);
+
+    if(root) {
+        await root.traverseReverse(async (member) => {
+            await memberHandler.deleteMember(member._id);
+        });
+    }
 
 }
 

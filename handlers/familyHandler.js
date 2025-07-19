@@ -6,15 +6,12 @@ import {Family} from "../models/familyModel.js";
     }
 
 // Read
-    const getAllFamilies = async (id) => {
-        return await Family.find({user: id}).lean();
-    }
-
-    const getOneFamilyBySlug = async (slug) => {
-        return await Family.findOne({slug});
-    }
-    const getOneFamilyById = async (familyId) => {
-        return await Family.findOne({_id: familyId});
+    const getOneFamily = async (target) => {
+        if(typeof target === String) {
+            return await Family.findOne({slug: target});
+        } else {
+            return await Family.findOne({_id: target});
+        }
     }
 
 // Update
@@ -33,9 +30,7 @@ import {Family} from "../models/familyModel.js";
 export default {
     createFamily,
 
-    getAllFamilies,
-    getOneFamilyBySlug,
-    getOneFamilyById,
+    getOneFamily,
 
     updateFamily,
 

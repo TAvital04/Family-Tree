@@ -3,76 +3,103 @@ import familyRenderer from "../renderers/familyRenderer.js";
 import memberHandler from "../handlers/memberHandler.js";
 
 // Create
-    const addMemberToRoot = async (req, res) => {
+    const addMemberToRoot = async (req, res) => 
+    /*
+        Render a form that creates a new family member
+    */
+    {
         familyRenderer.addMemberToRoot(req, res);
     }
-    const createMemberToRoot = async (req, res) => {
-        const memberData = {
-            member: {
-                ...req.body,
-            },
-            user: req.user._id
-        };
+    const createMemberToRoot = async (req, res) => 
+    /*
+        - Get data for a new Member from a post request
+        - This Member will occupy the root node of the Family object
+    */
+    {
+        // Get the data from the request
+            const memberData = {
+                member: {
+                    ...req.body,
+                },
+                user: req.user._id
+            };
 
-        const newRootId = await memberHandler.createMember(memberData);
-        const newRoot = await memberHandler.getOneMemberById(newRootId);
+        // Create a new Member from the provided data
+            const newRoot = await memberHandler.createMember(memberData);
+        
+        // Receive the Family object that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familySlug);
 
-        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
+        // Add the new Member as a new root of the Family object
+            await family.insertRoot(newRoot);
 
-        await family.insertRoot(newRoot);
-
-        familyRenderer.createMemberToRoot(req, res);
+        // Render the request
+            familyRenderer.createMemberToRoot(req, res);
     }
 
 // Read
-    const getFamily = async (req, res, next) => {
-        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);        
+    const getFamily = async (req, res, next) =>
+    /*
+        - Render all the Members of a Family
+    */
+    {
+        // Get the Family object that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familySlug);        
 
-        if(!family) return next();
+            if(!family) return next();
 
-        if(family.root){          
-            const root = await(memberHandler.getOneMemberById(family.root));
+        // Get pointers to all of the Members in the Family
+            const members = family.getMembers();
 
-            let memberIds = [];
-            let members = [];
-
-            memberIds = await root.getDescendants(memberIds);
-
-            let member;
-            for(const memberId of memberIds) {
-                member = await memberHandler.getOneMemberById(memberId);
-                members.push(member);
-            }
-
+        // Render the request
             familyRenderer.getFamily(req, res, family, members);
-        } else {
-            familyRenderer.getFamily(req, res, family, undefined);
-        }
     }
 
 // Update
-    const editFamily = async (req, res, next) => {
-        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
+    const editFamily = async (req, res, next) => 
+    /*
+        - Render a form to edit a Family object
+    */
+    {
+        // Get the Family that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
-        if(!family) return next();
-
-        familyRenderer.editFamily(req, res, family);
+        // Render the request
+            familyRenderer.editFamily(req, res, family);
     }
-    const updateFamily = async (req, res, next) => {
-        const id = req.body._id;
-        const familyData = req.body;
+    const updateFamily = async (req, res, next) => 
+    /*
+        - Get data to update a Family
+    */
+    {
+        // Get the data from the request
+            const familyData = req.body;
 
-        const family = await familyHandler.updateFamily(id, familyData);
+        // Get the Family that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
-        familyRenderer.updateFamily(req, res);
+        // Update the family contents
+            await familyHandler.updateFamily(family._id, familyData);
+
+        // Render the request
+            familyRenderer.updateFamily(req, res);
     }
 
 // Delete
-    const deleteFamily = async (req, res) => {
-        const id = req.params.familySlug;
-        const family = await familyHandler.deleteFamily(id);
+    const deleteFamily = async (req, res) => 
+    /*
+        - Delete the Family, and every Member that it's pointing to, that
+            the request is pointing to
+    */
+    {
+        // Get the data that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
-        familyRenderer.deleteFamily(res);
+        // Traverse the Family and delete every Member that it points to
+            await family.deleteFamily();
+
+        // Render the request
+            familyRenderer.deleteFamily(res);
     }
 
 export default {

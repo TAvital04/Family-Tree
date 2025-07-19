@@ -71,6 +71,40 @@ memberSchema.methods.getDescendants = async function (result) {
     return result;
 }
 
+memberSchema.methods.traverse = async function (operation, context = {})
+/*
+    - Traverse every descendent of a Member, and of their descendants, recursively,
+        and perform the given operation on all of them
+*/
+{
+    await operation(this, context);
+
+    for(const descendantId of this.descendants) {
+        const descendant = await memberHandler.getOneMember(descendantId);
+
+        if(descendant) {
+            await descendant.traverse(operation, context);
+        }
+    }
+}
+
+memberSchema.methods.traverseReverse = async function (operation, context = {})
+/*
+    - Traverse every descendent of a Member, and of their descendants, recursively,
+        in reverse, and perform the given operation on all of them
+*/
+{
+    for(const descendantId of this.descendants) {
+        const descendant = await memberHandler.getOneMember(descendantId);
+
+        if(descendant) {
+            await descendant.traverseReverse(operation, context);
+        }
+    }
+
+    await operation(this, context);
+}
+
 memberSchema.methods.insertDescendant = function (descendant) {
     this.descendants.push(descendant._id);
 

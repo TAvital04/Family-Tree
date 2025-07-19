@@ -22,7 +22,7 @@
     router.use("/families", homeRouter);
 
     // One family, all members
-    router.use("/families/:familySlug", familyRouter);
+    router.use("/families/:familyTarget", familyRouter);
 
     // One member
-    router.use("/families/:familySlug/:memberSlug", memberRouter);
+    router.use("/families/:familyTarget/:memberTarget", memberRouter);

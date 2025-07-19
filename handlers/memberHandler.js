@@ -6,11 +6,12 @@ import {Member} from "../models/memberModel.js";
     }
 
 // Read
-    const getOneMemberBySlug = async (slug) => {
-        return await Member.findOne({slug});
-    }
-    const getOneMemberById = async (id) => {
-        return await Member.findOne({_id: id});
+    const getOneMember = async (target) => {
+        if(typeof target === String) {
+            return await Family.findOne({slug: target});
+        } else {
+            return await Family.findOne({_id: target});
+        }
     }
 
 // Update
@@ -29,8 +30,7 @@ import {Member} from "../models/memberModel.js";
 export default {
     createMember,
 
-    getOneMemberBySlug,
-    getOneMemberById,
+    getOneMember,
     
     updateMember,
 
