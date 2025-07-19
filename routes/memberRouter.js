@@ -13,6 +13,7 @@ export const memberRouter = Router({mergeParams: true});
 // Read
     memberRouter.get(
         "/",
+        authController.isAuthenticated,
         catchErrors(memberController.getMemberBySlug)
     );
 
@@ -20,3 +21,8 @@ export const memberRouter = Router({mergeParams: true});
 
 
 // Delete
+    memberRouter.delete(
+        "/delete",
+        authController.isAuthenticated,
+        catchErrors(memberController.deleteMember)
+    );

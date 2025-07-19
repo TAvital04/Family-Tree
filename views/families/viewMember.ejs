@@ -1,0 +1,13 @@
+<%- include("../partials/header.ejs", {title}) %>
+
+<h1><%= title %></h1>
+
+<p>Gender: <%= member.member.gender %></p>
+
+<p><%= member.member.birthday.toDateString() %></p>
+
+<a href = <%= `/families/${req.params.familySlug}` %>>
+    <button>Back to Family</button>
+</a>
+
+<%- include("../partials/footer.ejs", {scripts: undefined}) %>

@@ -2,9 +2,10 @@
 
 
 // Read
-    const getMemberBySlug = (res, member) => {
+    const getMemberBySlug = (req, res, member) => {
         res.render("families/viewMember", {
-            title: `${member.firstname} ${member.lastname}`,
+            req,
+            title: `${member.member.firstname} ${member.member.lastname}`,
             member
         });
     }
@@ -25,8 +26,7 @@
 
 // Delete
     const deleteMember = (req, res) => {
-        const memberFamily = req.body.familyId;
-        res.redirect(`/families/:${memberFamily}`);
+        res.redirect(`/families/:${req.body.memberId}`);
     }
 
 export default {
