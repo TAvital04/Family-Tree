@@ -10,6 +10,22 @@
         res.redirect("/families");
     }
 
+    const addMemberToRoot = (req, res) => {
+        res.render("families/memberForm", {
+            title: "Add Member",
+            action: `/families/${req.params.familySlug}/add`,
+            member: {
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthday: ""
+            }
+        });
+    }
+    const createMemberToRoot = (req, res) => {
+        res.redirect(`/families/${req.params.familySlug}`);
+    }
+
 // Read
     const getFamilies = (res, families) => {
         res.render("families/allFamilies", {
@@ -46,6 +62,8 @@
 export default {
     addFamily,
     createFamily,
+    addMemberToRoot,
+    createMemberToRoot,
 
     getFamilies,
     getFamily,

@@ -1,19 +1,5 @@
 // Create
-    const addMemberToRoot = (req, res) => {
-        res.render("families/memberForm", {
-            title: "Add Member",
-            action: `/families/${req.params.familySlug}/add`,
-            member: {
-                firstname: "",
-                lastname: "",
-                gender: "",
-                birthday: ""
-            }
-        });
-    }
-    const createMemberToRoot = (req, res) => {
-        res.redirect(`/families/${req.params.familySlug}`);
-    }
+
 
 // Read
     const getMemberBySlug = (res, member) => {
@@ -44,9 +30,6 @@
     }
 
 export default {
-    addMemberToRoot,
-    createMemberToRoot,
-
     getMemberBySlug,
 
     editMember,

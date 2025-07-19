@@ -3,26 +3,23 @@ import familyRenderer from "../renderers/familyRenderer.js";
 import memberHandler from "../handlers/memberHandler.js";
 
 // Create
-    const addFamily = async (req, res) => {
-        familyRenderer.addFamily(res);
+    const addMemberToRoot = async (req, res) => {
+        familyRenderer.addMemberToRoot(req, res);
     }
-    const createFamily = async (req, res) => {
-        const familyData = {
+    const createMemberToRoot = async (req, res) => {
+        const memberData = {
             ...req.body,
             user: req.user._id
-        }
-        const family = await familyHandler.createFamily(familyData);
+        };
+        const member = await memberHandler.createMember(memberData);
 
-        familyRenderer.createFamily(res);
+        const family = await familyHandler.getOneFamilyBySlug(req.params.familySlug);
+        await member.insertRoot(family);
+
+        familyRenderer.createMemberToRoot(req, res);
     }
 
 // Read
-    const getFamilies = async (req, res) => {
-        const families = await familyHandler.getAllFamilies(req.user._id);
-
-        familyRenderer.getFamilies(res, families);
-    }
-
     const getFamily = async (req, res, next) => {
         const family = await familyHandler.getOneFamilyBySlug({slug: req.params.slug});
         const root = await memberHandler.getOneMemberById({id: family.root._id});
@@ -56,17 +53,16 @@ import memberHandler from "../handlers/memberHandler.js";
 
 // Delete
     const deleteFamily = async (req, res) => {
-        const id = req.params.id;
+        const id = req.params.familySlug;
         const family = await familyHandler.deleteFamily(id);
 
         familyRenderer.deleteFamily(res);
     }
 
 export default {
-    addFamily,
-    createFamily,
+    addMemberToRoot,
+    createMemberToRoot,
 
-    getFamilies,
     getFamily,
 
     editFamily,

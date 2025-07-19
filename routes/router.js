@@ -2,6 +2,7 @@
     import {Router} from "express";
 
     import {userRouter} from "./userRouter.js";
+    import { homeRouter } from "./homeRouter.js";
     import {familyRouter} from "./familyRouter.js";
     import {memberRouter} from "./memberRouter.js";
 
@@ -17,8 +18,11 @@
     // Users
     router.use("/users", userRouter);
 
-    // Families
-    router.use("/families", familyRouter);
+    // All families
+    router.use("/families", homeRouter);
 
-    // Members
-    router.use("/families/:familySlug", memberRouter);
+    // One family, all members
+    router.use("/families/:familySlug", familyRouter);
+
+    // One member
+    router.use("/families/:familySlug/:memberSlug", memberRouter);

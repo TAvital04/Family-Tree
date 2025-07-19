@@ -5,44 +5,39 @@ import familyController from "../controllers/familyController.js";
 
 import {catchErrors} from "../handlers/errorHandlers.js";
 
-export const familyRouter = Router();
+export const familyRouter = Router({mergeParams: true});
 
 // Create
     familyRouter.get(
-        "/add",
+        "/addToRoot",
         authController.isAuthenticated,
-        catchErrors(familyController.addFamily)
+        catchErrors(familyController.addMemberToRoot)
     );
     familyRouter.post(
-        "/add",
-        catchErrors(familyController.createFamily)
+        "/addToRoot",
+        catchErrors(familyController.createMemberToRoot)
     );
 
 // Read
     familyRouter.get(
         "/",
-        authController.isAuthenticated,
-        catchErrors(familyController.getFamilies)
-    );
-    familyRouter.get(
-        "/:familySlug",
         familyController.getFamily
-    );
+    );   
 
 // Update
     familyRouter.get(
-        "/:familySlug/edit",
+        "/edit",
         authController.isAuthenticated,
         catchErrors(familyController.editFamily)
     );
     familyRouter.post(
-        "/:familySlug/edit",
+        "/edit",
         familyController.updateFamily
     );
 
 // Delete
     familyRouter.delete(
-        "/:id/delete",
+        "/delete",
         authController.isAuthenticated,
         catchErrors(familyController.deleteFamily)
     );
