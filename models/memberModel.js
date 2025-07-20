@@ -111,9 +111,34 @@ memberSchema.methods.deleteMemberAndDescendants = async function (family)
 
 */
 {
-    if(family && family.root._id && family.root._id.equals(this._id)) {
-        family.root = undefined;
-        await family.save();
+    const context = {
+        prev: null,
+        result: null
+    };
+
+    const root = await memberHandler.getOneMember(family?.root);
+
+    if(root) {
+        await root.traverse(async (member, backpack) => {
+            if(member._id.equals(this._id)) {
+                backpack.result = context.prev;
+                return;
+            } else {
+                backpack.prev = member;
+            }
+        }, context);
+
+        if(context.result) {
+            const index = context.result.descendants.indexOf(this._id);
+
+            if(index > -1) {
+                context.result.descendants.splice(index, 1);
+                await context.result.save();
+            }
+        } else {
+            family.root = undefined;
+            await family.save();
+        }
     }
 
     await this.traverseReverse(async (member) => {
