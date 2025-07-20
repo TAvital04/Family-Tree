@@ -78,7 +78,7 @@ familySchema.methods.getMembers = async function ()
     return backpack;
 }
 
-familySchema.methods.findOne = async function (parameters)
+familySchema.methods.findMember = async function (parameters)
 /*
     - Call the Member model's findOne() to find a member in the family
         that fits the criteria in the parameters

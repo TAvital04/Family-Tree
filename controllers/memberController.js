@@ -31,13 +31,13 @@ import familyHandler from "../handlers/familyHandler.js";
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Get the Member object the request is pointing to
-            const member = await family.findOne({slug: req.params.memberTarget});
+            const member = await family.findMember({slug: req.params.memberTarget});
 
-            // Insert the new Member as a descendant of the requested Member
-            member.insertDescendant(newMember);
+        // Insert the new Member as a descendant of the requested Member
+            await member.insertDescendant(newMember);
 
         // Render the request
-            memberRenderer.createMemberAtMember(req, res);
+            memberRenderer.createMemberAtMember(req, res, member);
     }
 
 // Read
@@ -50,7 +50,7 @@ import familyHandler from "../handlers/familyHandler.js";
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Find the Member the request is looking for
-            const member = await family.findOne({slug: req.params.memberTarget});
+            const member = await family.findMember({slug: req.params.memberTarget});
 
         // Render the request
             memberRenderer.getMember(req, res, member);
@@ -66,7 +66,7 @@ import familyHandler from "../handlers/familyHandler.js";
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Find the Member the request is looking for
-            const member = await family.findOne({id: req.params.memberTarget});
+            const member = await family.findMember({id: req.params.memberTarget});
         
         // Render the request
             memberRenderer.editMember(req, res, member);
@@ -83,7 +83,7 @@ import familyHandler from "../handlers/familyHandler.js";
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
         
         // Find the Member the request is looking for
-            const member = await family.findOne({id: req.params.memberTarget});
+            const member = await family.findMember({id: req.params.memberTarget});
 
         // Update the Member contents
             await memberHandler.updateMember(member, memberData);
@@ -103,7 +103,7 @@ import familyHandler from "../handlers/familyHandler.js";
             const family = await familyHandler.getOneFamily(req.params.familyTarget);
 
         // Find the Member that the request is looking for
-            const member = await family.findOne({id: req.params.memberTarget});
+            const member = await family.findMember({id: req.params.memberTarget});
 
         // Delete the member
             if(member) await member.deleteMemberAndDescendants(family);

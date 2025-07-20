@@ -12,7 +12,7 @@
         })
     }
     const createMemberAtMember = (req, res) => {
-        res.redirect(`/families/${req.params.familyTarget}/${req.params.memberTarget}`);
+        res.redirect(`/families/${req.params.familyTarget}`);
     }
 
 // Read
@@ -29,7 +29,8 @@
         res.render("families/memberForm", {
             title: "Edit Member",
             action: `/families/${req.params.familyTarget}/${req.params.memberTarget}/edit`,
-            member
+            member,
+            edit: true
         });
     }
     const updateMember = (req, res) => {
