@@ -97,7 +97,6 @@ memberSchema.methods.traverseReverse = async function (operation, backpack = {})
 {
     for(const descendantId of this.descendants) {
         const descendant = await memberHandler.getOneMember(descendantId);
-        console.log(`traversing: ${descendant}\n\n`)
 
         if(descendant) {
             await descendant.traverseReverse(operation, backpack);
@@ -107,11 +106,16 @@ memberSchema.methods.traverseReverse = async function (operation, backpack = {})
     await operation(this, backpack);
 }
 
-memberSchema.methods.deleteMemberAndDescendants = async function ()
+memberSchema.methods.deleteMemberAndDescendants = async function (family)
 /*
 
 */
 {
+    if(family && family.root._id && family.root._id.equals(this._id)) {
+        family.root = undefined;
+        await family.save();
+    }
+
     await this.traverseReverse(async (member) => {
         await memberHandler.deleteMember(member._id);
     });
@@ -123,8 +127,6 @@ memberSchema.methods.findOne = async function (parameters)
 */
 {
     const result = {result: null}
-
-    console.log(`looking for\n${this}\nfrom ${parameters}`)
 
     await this.traverse(async (member, backpack) => {
         if(backpack.result) return;
@@ -143,14 +145,13 @@ memberSchema.methods.findOne = async function (parameters)
         }
     }, result)
 
-    console.log(`result:\n${result.result}`)
     return result.result;
 }
 
-memberSchema.methods.insertDescendant = function (descendant) {
+memberSchema.methods.insertDescendant = async function (descendant) {
     this.descendants.push(descendant._id);
 
-    this.save();
+    await this.save();
 }
 
 export const Member = mongoose.model("Member", memberSchema);

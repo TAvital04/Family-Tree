@@ -106,10 +106,10 @@ import familyHandler from "../handlers/familyHandler.js";
             const member = await family.findOne({id: req.params.memberTarget});
 
         // Delete the member
-            if(member) member.deleteMemberAndDescendants();
+            if(member) member.deleteMemberAndDescendants(family);
 
         // Render the request
-            memberRenderer.deleteMember(res, family.slug);
+            memberRenderer.deleteMember(req, res);
     }
 
 export default {

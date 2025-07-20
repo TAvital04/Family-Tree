@@ -5,6 +5,7 @@ const slugger = new GitHubSlugger();
 
 import memberHandler from "../handlers/memberHandler.js";
 import familyHandler from "../handlers/familyHandler.js";
+import userHandler from "../handlers/userHandler.js";
 
 const familySchema = new mongoose.Schema({
     title: {
@@ -50,7 +51,7 @@ familySchema.methods.insertRoot = async function (member)
 {
     const prevRoot = this.root;
 
-    if(prevRoot) member.insertDescendant(prevRoot._id);
+    if(prevRoot) await member.insertDescendant(prevRoot._id);
 
     this.root = member._id;
     
@@ -84,7 +85,7 @@ familySchema.methods.findOne = async function (parameters)
 */
 {
     let result;
-    console.log(parameters)
+
     const root = await memberHandler.getOneMember(this.root);
 
     if(root) {
@@ -108,19 +109,6 @@ familySchema.methods.deleteFamily = async function ()
     }
 
     familyHandler.deleteFamily(this._id);
-}
-
-familySchema.methods.deleteMemberAndDescendants = async function ({...parameters})
-/*
-
-*/
-{
-    const root = await memberHandler.getOneMember(this.root);
-
-    if(root) {
-        const result = await root.findOne({...parameters});
-        result.deleteMemberAndDescendants();
-    }
 }
 
 export const Family = mongoose.model("Family", familySchema);
