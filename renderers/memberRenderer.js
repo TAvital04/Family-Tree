@@ -37,8 +37,8 @@
     }
 
 // Delete
-    const deleteMember = (req, res) => {
-        res.redirect(`/families/${req.params.familyTarget}`);
+    const deleteMember = (req, res, family) => {
+        res.redirect(`/families/${family.slug}`);
     }
 
 export default {

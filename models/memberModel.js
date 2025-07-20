@@ -106,6 +106,67 @@ memberSchema.methods.traverseReverse = async function (operation, backpack = {})
     await operation(this, backpack);
 }
 
+memberSchema.methods.deleteMember = async function (family)
+/*
+
+*/
+{
+    const context = {
+        prev: null,
+        result: null
+    };
+
+    const root = await memberHandler.getOneMember(family.root);
+
+    await root.traverse(async (member, backpack) => {
+        if(member._id.equals(this._id)) {
+            backpack.result = backpack.prev;
+            return;
+        } else {
+            backpack.prev = member;
+        }
+    }, context);
+
+    const parent = context.result;
+
+    if(parent) {
+        for(const memberId of this.descendants) {
+            parent.descendants.push(memberId);
+        }
+
+        const index = parent.descendants.indexOf(this._id);
+        if(index > -1) {
+            parent.descendants.splice(index, 1);
+        }
+
+        await parent.save();
+    } else {
+        if(this.descendants.length > 1) {
+            const newRoot = await memberHandler.createMember({
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthday: ""
+            });
+
+            for(const memberId of this.descendants) {
+                newRoot.descendants.push(memberId);
+            }
+
+            await newRoot.save();
+            family.root = newRoot._id;
+        } else if(this.descendants.length === 1) {
+            family.root = this.descendants[0];
+        } else {
+            family.root = undefined;
+        }
+
+        await family.save();
+    }
+
+    await memberHandler.deleteMember(this._id)
+}
+
 memberSchema.methods.deleteMemberAndDescendants = async function (family)
 /*
 

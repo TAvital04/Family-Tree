@@ -98,6 +98,25 @@ import familyHandler from "../handlers/familyHandler.js";
     }
 
 // Delete
+    const deleteMember = async (req, res) => 
+    /*
+        - Find a Member from the Family that the request is pointing to
+        - Delete the Member and add its descendants to the parent Member
+    */
+    {
+        // Get the Family that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+
+        // Find the Member that the request is looking for
+            const member = await family.findMember({id: req.params.memberTarget});
+
+        // Delete the member
+            if(member) await member.deleteMember(family);
+
+        // Render the request
+            memberRenderer.deleteMember(req, res, family);
+    }
+
     const deleteMemberAndDescendants = async (req, res) => 
     /*
         - Find a Member from the Family that the request is pointing to
@@ -114,7 +133,7 @@ import familyHandler from "../handlers/familyHandler.js";
             if(member) await member.deleteMemberAndDescendants(family);
 
         // Render the request
-            memberRenderer.deleteMember(req, res);
+            memberRenderer.deleteMember(req, res, family);
     }
 
 export default {
@@ -126,5 +145,6 @@ export default {
     editMember,
     updateMember,
 
+    deleteMember,
     deleteMemberAndDescendants
 }

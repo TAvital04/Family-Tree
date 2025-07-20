@@ -38,6 +38,12 @@ export const memberRouter = Router({mergeParams: true});
 
 // Delete
     memberRouter.delete(
+        "/deleteMember",
+        authController.isAuthenticated,
+        catchErrors(memberController.deleteMember)
+    );    
+
+    memberRouter.delete(
         "/deleteMemberAndDescendants",
         authController.isAuthenticated,
         catchErrors(memberController.deleteMemberAndDescendants)
