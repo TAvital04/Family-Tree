@@ -16,10 +16,11 @@
     }
 
 // Read
-    const getMember = (req, res, member) => {
+    const getMember = (req, res, family, member) => {
         res.render("families/viewMember", {
             req,
             title: `${member.member.firstname} ${member.member.lastname}`,
+            family,
             member
         });
     }

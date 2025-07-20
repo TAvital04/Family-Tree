@@ -53,7 +53,7 @@ import familyHandler from "../handlers/familyHandler.js";
             const member = await family.findMember({slug: req.params.memberTarget});
 
         // Render the request
-            memberRenderer.getMember(req, res, member);
+            memberRenderer.getMember(req, res, family, member);
     }
 
 // Update

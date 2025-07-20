@@ -2,26 +2,4 @@
     <a href = "/families/<%= family.slug %>/<%= member.slug %>">
         <%= member.member.firstname %> <%= member.member.lastname %>
     </a>
-
-    <a href = "/families/<%= family._id %>/<%= member._id %>/edit">
-        <button>Edit</button>
-    </a>
-
-    <a href = <%= `/families/${req.params.familyTarget}/${member.slug}/addToMember` %>>
-        <button>Add Descendant</button>
-    </a>
-
-    <form
-        action = "/families/<%= family._id %>/<%= member._id %>/deleteMember?_method=DELETE"
-        method = "POST"
-    >
-        <button type = "submit">Delete Member</button>
-    </form>
-
-    <form
-        action = "/families/<%= family._id %>/<%= member._id %>/deleteMemberAndDescendants?_method=DELETE"
-        method = "POST"
-    >
-        <button type = "submit">Delete Member and Descendants</button>
-    </form>
 </div>
