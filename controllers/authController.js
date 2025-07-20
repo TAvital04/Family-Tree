@@ -16,7 +16,7 @@ import passport from "passport";
         });
 
         req.flash("success", "Logout Successful");
-        res.render("home", {
+        res.render("users/home", {
             title: "Home",
             flashes: req.flash()
         });
@@ -29,7 +29,7 @@ import passport from "passport";
         }
 
         req.flash("danger", "Please log in.");
-        res.render("login", {
+        res.render("users/login", {
             title: "Login",
             flashes: req.flash()
         });

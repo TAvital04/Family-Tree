@@ -17,7 +17,7 @@ import {body, validationResult} from "express-validator";
                     flashes: req.flash()
                 });
             } else {
-                res.render("login", {
+                res.render("users/login", {
                     title: "Login"
                 });
             }
@@ -57,7 +57,7 @@ import {body, validationResult} from "express-validator";
 
 // Login
     const loginForm = async (req, res) => {
-        res.render("login", {
+        res.render("users/login", {
             title: "Login"
         });
     }

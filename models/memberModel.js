@@ -72,12 +72,7 @@ memberSchema.methods.getDescendants = async function (result) {
     return result;
 }
 
-memberSchema.methods.traverse = async function (operation, backpack = {})
-/*
-    - Traverse every descendent of a Member, and of their descendants, recursively,
-        and perform the given operation on all of them
-*/
-{
+memberSchema.methods.traverse = async function (operation, backpack = {}) {
     await operation(this, backpack);
 
     for(const descendantId of this.descendants) {
@@ -89,12 +84,7 @@ memberSchema.methods.traverse = async function (operation, backpack = {})
     }
 }
 
-memberSchema.methods.traverseReverse = async function (operation, backpack = {})
-/*
-    - Traverse every descendent of a Member, and of their descendants, recursively,
-        in reverse, and perform the given operation on all of them
-*/
-{
+memberSchema.methods.traverseReverse = async function (operation, backpack = {}) {
     for(const descendantId of this.descendants) {
         const descendant = await memberHandler.getOneMember(descendantId);
 
@@ -106,11 +96,7 @@ memberSchema.methods.traverseReverse = async function (operation, backpack = {})
     await operation(this, backpack);
 }
 
-memberSchema.methods.deleteMember = async function (family)
-/*
-
-*/
-{
+memberSchema.methods.deleteMember = async function (family) {
     const context = {
         prev: null,
         result: null
@@ -167,11 +153,7 @@ memberSchema.methods.deleteMember = async function (family)
     await memberHandler.deleteMember(this._id)
 }
 
-memberSchema.methods.deleteMemberAndDescendants = async function (family)
-/*
-
-*/
-{
+memberSchema.methods.deleteMemberAndDescendants = async function (family) {
     const context = {
         prev: null,
         result: null
@@ -207,11 +189,7 @@ memberSchema.methods.deleteMemberAndDescendants = async function (family)
     });
 }
 
-memberSchema.methods.findOne = async function (parameters)
-/*
-
-*/
-{
+memberSchema.methods.findOne = async function (parameters) {
     const result = {result: null}
 
     await this.traverse(async (member, backpack) => {

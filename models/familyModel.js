@@ -41,14 +41,7 @@ familySchema.pre("save", function (next) {
     next();
 });
 
-familySchema.methods.insertRoot = async function (member)
-/*
-    - Insert a Member at the root of the Family
-
-    - If the Family already has a root, replace the old root with the new
-        one, and then add the old root as a decendent of the new root
-*/
-{
+familySchema.methods.insertRoot = async function (member) {
     const prevRoot = this.root;
 
     if(prevRoot) await member.insertDescendant(prevRoot._id);
@@ -58,13 +51,7 @@ familySchema.methods.insertRoot = async function (member)
     await this.save();
 }
 
-familySchema.methods.getMembers = async function () 
-/*
-    - Call the Member model's function traverse() to traverse all the Members
-        that descend from the Family's root such that it returns an array 
-        of their pointers
-*/
-{
+familySchema.methods.getMembers = async function () {
     const backpack = [];
 
     const root = await memberHandler.getOneMember(this.root);
@@ -78,12 +65,7 @@ familySchema.methods.getMembers = async function ()
     return backpack;
 }
 
-familySchema.methods.findMember = async function (parameters)
-/*
-    - Call the Member model's findOne() to find a member in the family
-        that fits the criteria in the parameters
-*/
-{
+familySchema.methods.findMember = async function (parameters) {
     let result;
 
     const root = await memberHandler.getOneMember(this.root);
@@ -93,15 +75,9 @@ familySchema.methods.findMember = async function (parameters)
     }
 
     return result;
-
 }
 
-familySchema.methods.deleteFamily = async function ()
-/*
-    - Call the Member model's function traverseReverse() to traverse all the Members
-        that descend from the Family's root such that it deletes every member
-*/
-{
+familySchema.methods.deleteFamily = async function () {
     const root = await memberHandler.getOneMember(this.root);
 
     if(root) {

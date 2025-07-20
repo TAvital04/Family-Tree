@@ -3,137 +3,70 @@ import memberRenderer from "../renderers/memberRenderer.js";
 import familyHandler from "../handlers/familyHandler.js";
 
 // Create
-    const addMemberAtMember = async (req, res) => 
-    /*
-        Render a form that creates a new Family Member
-    */
-    {
+    const addMemberAtMember = async (req, res) => {
         memberRenderer.addMemberAtMember(req, res);
     }
-    const createMemberAtMember = async (req, res) =>
-    /*
-        - Get data for a new Member from a post request
-        - This Member will be a new descendant of another member
-    */
-    {
-        // Get the data from the request
-            const memberData = {
-                member: {
-                    ...req.body
-                },
-                user: req.user._id
-            };
-        
-        // Create a new Member from the provided data
-            const newMember = await memberHandler.createMember(memberData);
-        
-        // Get the Family object that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+    const createMemberAtMember = async (req, res) => {
+        const memberData = {
+            member: {
+                ...req.body
+            },
+            user: req.user._id
+        };
+    
+        const newMember = await memberHandler.createMember(memberData);
 
-        // Get the Member object the request is pointing to
-            const member = await family.findMember({slug: req.params.memberTarget});
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const member = await family.findMember({slug: req.params.memberTarget});
 
-        // Insert the new Member as a descendant of the requested Member
-            await member.insertDescendant(newMember);
+        await member.insertDescendant(newMember);
 
-        // Render the request
-            memberRenderer.createMemberAtMember(req, res, member);
+        memberRenderer.createMemberAtMember(req, res, member);
     }
 
 // Read
-    const getMember = async (req, res) =>
-    /*
-        - Render a page that shows Member attributes
-    */
-    {
-        // Get the Family object that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+    const getMember = async (req, res) => {
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const member = await family.findMember({slug: req.params.memberTarget});
 
-        // Find the Member the request is looking for
-            const member = await family.findMember({slug: req.params.memberTarget});
-
-        // Render the request
-            memberRenderer.getMember(req, res, family, member);
+        memberRenderer.getMember(req, res, family, member);
     }
 
 // Update
-    const editMember = async (req, res) =>
-    /*
-        - Render a form to edit a Member object
-    */
-    {
-        // Get the Family that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familyTarget);
-
-        // Find the Member the request is looking for
-            const member = await family.findMember({id: req.params.memberTarget});
-        
-        // Render the request
-            memberRenderer.editMember(req, res, member);
+    const editMember = async (req, res) => {
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const member = await family.findMember({id: req.params.memberTarget});
+    
+        memberRenderer.editMember(req, res, member);
     }
-    const updateMember = async (req, res) =>
-    /*
-        - Get data to update a Member
-    */
-    {
-        // Get the data from the request
-            const memberData = req.body;
+    const updateMember = async (req, res) => {
+        const memberData = req.body;
 
-        // Get the Family that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familyTarget);
-        
-        // Find the Member the request is looking for
-            const member = await family.findMember({id: req.params.memberTarget});
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const member = await family.findMember({id: req.params.memberTarget});
 
-            console.log(member)
+        await memberHandler.updateMember(member, memberData);
 
-        // Update the Member contents
-            await memberHandler.updateMember(member, memberData);
-
-            console.log(member)
-
-        
-        // Render the request
-            memberRenderer.updateMember(req, res, family);
+        memberRenderer.updateMember(req, res, family);
     }
 
 // Delete
-    const deleteMember = async (req, res) => 
-    /*
-        - Find a Member from the Family that the request is pointing to
-        - Delete the Member and add its descendants to the parent Member
-    */
-    {
-        // Get the Family that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+    const deleteMember = async (req, res) => {
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const member = await family.findMember({id: req.params.memberTarget});
 
-        // Find the Member that the request is looking for
-            const member = await family.findMember({id: req.params.memberTarget});
+        await member.deleteMember(family);
 
-        // Delete the member
-            if(member) await member.deleteMember(family);
-
-        // Render the request
-            memberRenderer.deleteMember(req, res, family);
+        memberRenderer.deleteMember(req, res, family);
     }
 
-    const deleteMemberAndDescendants = async (req, res) => 
-    /*
-        - Find a Member from the Family that the request is pointing to
-        - Delete the Member and all of its descendants
-    */
-    {
-        // Get the Family that the request is pointing to
-            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+    const deleteMemberAndDescendants = async (req, res) => {
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const member = await family.findMember({id: req.params.memberTarget});
 
-        // Find the Member that the request is looking for
-            const member = await family.findMember({id: req.params.memberTarget});
+        if(member) await member.deleteMemberAndDescendants(family);
 
-        // Delete the member
-            if(member) await member.deleteMemberAndDescendants(family);
-
-        // Render the request
-            memberRenderer.deleteMember(req, res, family);
+        memberRenderer.deleteMember(req, res, family);
     }
 
 export default {

@@ -10,7 +10,7 @@
 
 // Routes
     router.get("/", (req, res) => {
-        res.render("home", {
+        res.render("users/home", {
             title: "Home"
         });
     });
