@@ -19,7 +19,7 @@ import mongoose from "mongoose";
 
 // Update
     const updateMember = async (member, memberData) => {
-        Object.assign(member, memberData);
+        Object.assign(member.member, memberData);
         await member.save();
     };
 

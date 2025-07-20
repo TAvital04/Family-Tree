@@ -10,7 +10,9 @@
 
 <h1><%= title %></h1>
 
-<a href = "/families/add">Add</a>
+<a href = "/families/add">
+    <button>Add</button>
+</a>
 
 <% families.map(family => { %>
     <%- include("../components/listFamily.ejs", {family}) %>

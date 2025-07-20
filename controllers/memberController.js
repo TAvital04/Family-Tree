@@ -85,11 +85,16 @@ import familyHandler from "../handlers/familyHandler.js";
         // Find the Member the request is looking for
             const member = await family.findMember({id: req.params.memberTarget});
 
+            console.log(member)
+
         // Update the Member contents
             await memberHandler.updateMember(member, memberData);
+
+            console.log(member)
+
         
         // Render the request
-            memberRenderer.updateMember(req, res);
+            memberRenderer.updateMember(req, res, family);
     }
 
 // Delete

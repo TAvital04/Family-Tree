@@ -29,12 +29,11 @@
         res.render("families/memberForm", {
             title: "Edit Member",
             action: `/families/${req.params.familyTarget}/${req.params.memberTarget}/edit`,
-            member,
-            edit: true
+            member
         });
     }
-    const updateMember = (req, res) => {
-        res.redirect(`/families/${req.params.familyTarget}`);
+    const updateMember = (req, res, family) => {
+        res.redirect(`/families/${family.slug}`);
     }
 
 // Delete
