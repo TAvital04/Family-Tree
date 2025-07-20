@@ -8,7 +8,15 @@ import {catchErrors} from "../handlers/errorHandlers.js";
 export const memberRouter = Router({mergeParams: true});
 
 // Create
-
+    memberRouter.get(
+        "/addToMember",
+        authController.isAuthenticated,
+        catchErrors(memberController.addMemberAtMember)
+    );
+    memberRouter.post(
+        "/addToMember",
+        catchErrors(memberController.createMemberAtMember)
+    )
 
 // Read
     memberRouter.get(
@@ -21,11 +29,11 @@ export const memberRouter = Router({mergeParams: true});
     memberRouter.get(
         "/edit",
         authController.isAuthenticated,
-        memberController.editMember
+        catchErrors(memberController.editMember)
     );
     memberRouter.post(
         "/edit",
-        memberController.updateMember
+        catchErrors(memberController.updateMember)
     )
 
 // Delete

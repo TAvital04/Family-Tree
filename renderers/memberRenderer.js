@@ -1,5 +1,19 @@
 // Create
-
+    const addMemberAtMember = (req, res) => {
+        res.render("families/memberForm", {
+            title: "Add Member",
+            action: `/families/${req.params.familyTarget}/${req.params.memberTarget}/addToMember`,
+            member: {
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthday: ""
+            }
+        })
+    }
+    const createMemberAtMember = (req, res) => {
+        res.redirect(`/families/${req.params.familyTarget}/${req.params.memberTarget}`);
+    }
 
 // Read
     const getMember = (req, res, member) => {
@@ -28,6 +42,9 @@
     }
 
 export default {
+    addMemberAtMember,
+    createMemberAtMember,
+    
     getMember,
 
     editMember,

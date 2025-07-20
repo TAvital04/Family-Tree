@@ -19,9 +19,14 @@ import mongoose from "mongoose";
 
 // Update
     const updateMember = async (member, memberData) => {
-        Object.assign(member.member, memberData);
+        Object.assign(member, memberData);
         await member.save();
     };
+
+// Delete
+    const deleteMember = async (id) => {
+        return await Member.findByIdAndDelete({_id: id}).lean();
+    }
 
 export default {
     createMember,
@@ -29,4 +34,6 @@ export default {
     getOneMember,
     
     updateMember,
+
+    deleteMember
 }

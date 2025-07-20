@@ -9,7 +9,7 @@
     <button type = "submit">Edit</button>
 </form>
 
-<a href = <%= `${req.params.familyTarget}/addToRoot` %>>Add Member</a>
+<a href = <%= `/families/${req.params.familyTarget}/addToRoot` %>>Add Member</a>
 
 <% if(members) { 
     members.forEach(member => { 

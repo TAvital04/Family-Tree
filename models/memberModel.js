@@ -97,6 +97,7 @@ memberSchema.methods.traverseReverse = async function (operation, backpack = {})
 {
     for(const descendantId of this.descendants) {
         const descendant = await memberHandler.getOneMember(descendantId);
+        console.log(`traversing: ${descendant}\n\n`)
 
         if(descendant) {
             await descendant.traverseReverse(operation, backpack);
@@ -116,12 +117,14 @@ memberSchema.methods.deleteMemberAndDescendants = async function ()
     });
 }
 
-memberSchema.methods.findOne = async function ({...parameters})
+memberSchema.methods.findOne = async function (parameters)
 /*
 
 */
 {
     const result = {result: null}
+
+    console.log(`looking for\n${this}\nfrom ${parameters}`)
 
     await this.traverse(async (member, backpack) => {
         if(backpack.result) return;
@@ -140,6 +143,7 @@ memberSchema.methods.findOne = async function ({...parameters})
         }
     }, result)
 
+    console.log(`result:\n${result.result}`)
     return result.result;
 }
 

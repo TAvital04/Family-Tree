@@ -27,7 +27,17 @@ import familyHandler from "../handlers/familyHandler.js";
         // Create a new Member from the provided data
             const newMember = await memberHandler.createMember(memberData);
         
-        // Get the family object that the request is pointing to
+        // Get the Family object that the request is pointing to
+            const family = await familyHandler.getOneFamily(req.params.familyTarget);
+
+        // Get the Member object the request is pointing to
+            const member = await family.findOne({slug: req.params.memberTarget});
+
+            // Insert the new Member as a descendant of the requested Member
+            member.insertDescendant(newMember);
+
+        // Render the request
+            memberRenderer.createMemberAtMember(req, res);
     }
 
 // Read
@@ -86,7 +96,6 @@ import familyHandler from "../handlers/familyHandler.js";
     const deleteMemberAndDescendants = async (req, res) => 
     /*
         - Find a Member from the Family that the request is pointing to
-
         - Delete the Member and all of its descendants
     */
     {
@@ -104,6 +113,9 @@ import familyHandler from "../handlers/familyHandler.js";
     }
 
 export default {
+    addMemberAtMember,
+    createMemberAtMember,
+
     getMember,
 
     editMember,

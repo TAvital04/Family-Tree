@@ -34,7 +34,7 @@ import memberHandler from "../handlers/memberHandler.js";
             await family.insertRoot(newRoot);
 
         // Render the request
-            familyRenderer.createMemberToRoot(req, res);
+            familyRenderer.createMemberAtRoot(req, res);
     }
 
 // Read
