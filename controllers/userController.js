@@ -3,7 +3,7 @@ import {body, validationResult} from "express-validator";
 
 // Register
     const registerForm = async (req, res) => {
-        res.render("register", {
+        res.render("users/register", {
             title: "Register",
             flashes: req.flash()
         });
@@ -12,7 +12,7 @@ import {body, validationResult} from "express-validator";
     const register = async (req, res) => {
         const callback = (err, newUser) => {
             if(err) {
-                res.render("register", {
+                res.render("users/register", {
                     title: "Register",
                     flashes: req.flash()
                 });
@@ -45,7 +45,7 @@ import {body, validationResult} from "express-validator";
 
             if(!errors.isEmpty()) {
                 req.flash("danger", errors.errors.map((err) => err.msg).join("; "));
-                res.render("register", {
+                res.render("users/register", {
                     title: "Register",
                     flashes: req.flash()
                 });

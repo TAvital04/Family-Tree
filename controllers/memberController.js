@@ -19,7 +19,7 @@ import familyHandler from "../handlers/familyHandler.js";
         const family = await familyHandler.getOneFamily(req.params.familyTarget);
         const member = await family.findMember({slug: req.params.memberTarget});
 
-        await member.insertDescendant(newMember);
+        await member.insertMember(newMember);
 
         memberRenderer.createMemberAtMember(req, res, member);
     }

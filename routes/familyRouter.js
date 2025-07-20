@@ -23,7 +23,18 @@ export const familyRouter = Router({mergeParams: true});
         "/",
         authController.isAuthenticated,
         catchErrors(familyController.getFamily)
-    );   
+    );
+
+    familyRouter.get(
+        "/query",
+        authController.isAuthenticated,
+        catchErrors(familyController.getQuery)
+    );
+    familyRouter.post(
+        "/query",
+        authController.isAuthenticated,
+        catchErrors(familyController.postQuery)
+    );
 
 // Update
     familyRouter.get(
@@ -33,7 +44,7 @@ export const familyRouter = Router({mergeParams: true});
     );
     familyRouter.post(
         "/edit",
-        familyController.updateFamily
+        catchErrors(familyController.updateFamily)
     );
 
 // Delete

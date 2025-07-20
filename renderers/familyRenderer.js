@@ -43,6 +43,29 @@
         });
     }
 
+    const getQuery = (req, res) => {
+        res.render("families/memberForm", {
+            title: "Query Member",
+            action: `/families/${req.params.familyTarget}/query`,
+            member: {
+                firstname: "",
+                lastname: "",
+                gender: "",
+                birthday: "" 
+            }
+        });
+    }
+    const postQuery = (req, res, family, members) => {
+        res.render(
+            "families/query", {
+                req,
+                title: "Query Member",
+                family,
+                members
+            }
+        );
+    }
+
 // Update
     const editFamily = (req, res, family) => {
         res.render("families/familyForm", {
@@ -68,6 +91,8 @@ export default {
 
     getFamilies,
     getFamily,
+    getQuery,
+    postQuery,
 
     editFamily,
     updateFamily,

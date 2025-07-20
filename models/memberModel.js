@@ -59,17 +59,10 @@ memberSchema.pre("save", function (next) {
     next();
 });
 
-memberSchema.methods.getDescendants = async function (result) {
-    result.push(this._id)
+memberSchema.methods.insertMember = async function (descendant) {
+    this.descendants.push(descendant._id);
 
-    let temp;
-    
-    for(const descendant of this.descendants) {
-        temp = await memberHandler.getOneMemberById({id: descendant});
-        await temp.getDescendants(result);
-    }
-
-    return result;
+    await this.save();
 }
 
 memberSchema.methods.traverse = async function (operation, backpack = {}) {
@@ -94,6 +87,60 @@ memberSchema.methods.traverseReverse = async function (operation, backpack = {})
     }
 
     await operation(this, backpack);
+}
+
+memberSchema.methods.getMembers = async function () {
+    const result = [];
+
+    await this.traverse((member, backpack) => {
+        backpack.push(member);
+    }, result);
+
+    return result;
+}
+
+memberSchema.methods.findMember = async function (parameters) {
+    const result = {result: null}
+
+    await this.traverse(async (member, backpack) => {
+        if(backpack.result) return;
+
+        let isMatch = true;
+
+        for(const key in parameters) {
+            if(member[key] != parameters[key]) {
+                isMatch = false;
+                break;
+            }
+        }
+
+        if(isMatch) {
+            backpack.result = member;
+        }
+    }, result)
+
+    return result.result;
+}
+
+memberSchema.methods.findMembers = async function (parameters) {
+    const result = [];
+
+    await this.traverse(async (member, backpack) => {
+        let isMatch = false;
+
+        for(const key in parameters) {
+            if(member.member[key] == parameters[key]) {
+                isMatch = true;
+                break;
+            }
+        }
+
+        if(isMatch) {
+            backpack.push(member);
+        }
+    }, result)
+
+    return result;
 }
 
 memberSchema.methods.deleteMember = async function (family) {
@@ -171,12 +218,14 @@ memberSchema.methods.deleteMemberAndDescendants = async function (family) {
             }
         }, context);
 
-        if(context.result) {
-            const index = context.result.descendants.indexOf(this._id);
+        const parent = context.result;
+
+        if(parent) {
+            const index = parent.descendants.indexOf(this._id);
 
             if(index > -1) {
-                context.result.descendants.splice(index, 1);
-                await context.result.save();
+                parent.descendants.splice(index, 1);
+                await parent.save();
             }
         } else {
             family.root = undefined;
@@ -187,35 +236,6 @@ memberSchema.methods.deleteMemberAndDescendants = async function (family) {
     await this.traverseReverse(async (member) => {
         await memberHandler.deleteMember(member._id);
     });
-}
-
-memberSchema.methods.findOne = async function (parameters) {
-    const result = {result: null}
-
-    await this.traverse(async (member, backpack) => {
-        if(backpack.result) return;
-
-        let isMatch = true;
-
-        for(const key in parameters) {
-            if(member[key] != parameters[key]) {
-                isMatch = false;
-                break;
-            }
-        }
-
-        if(isMatch) {
-            backpack.result = member;
-        }
-    }, result)
-
-    return result.result;
-}
-
-memberSchema.methods.insertDescendant = async function (descendant) {
-    this.descendants.push(descendant._id);
-
-    await this.save();
 }
 
 export const Member = mongoose.model("Member", memberSchema);

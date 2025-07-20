@@ -10,9 +10,7 @@
 
 // Routes
     router.get("/", (req, res) => {
-        res.render("users/home", {
-            title: "Home"
-        });
+        res.redirect("/families");
     });
 
     // Users

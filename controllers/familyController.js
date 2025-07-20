@@ -30,6 +30,18 @@ import memberHandler from "../handlers/memberHandler.js";
         familyRenderer.getFamily(req, res, family, members);
     }
 
+    const getQuery = async (req, res) => {
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        
+        familyRenderer.getQuery(req, res, family);
+    }
+    const postQuery = async (req, res) => {
+        const family = await familyHandler.getOneFamily(req.params.familyTarget);
+        const members = await family.findMembers({...req.body});
+
+        familyRenderer.postQuery(req, res, family, members);
+    }
+
 // Update
     const editFamily = async (req, res) => {
         const family = await familyHandler.getOneFamily(req.params.familyTarget);
@@ -59,6 +71,8 @@ export default {
     createMemberAtRoot,
 
     getFamily,
+    getQuery,
+    postQuery,
 
     editFamily,
     updateFamily,

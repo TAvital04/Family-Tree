@@ -5,7 +5,6 @@ const slugger = new GitHubSlugger();
 
 import memberHandler from "../handlers/memberHandler.js";
 import familyHandler from "../handlers/familyHandler.js";
-import userHandler from "../handlers/userHandler.js";
 
 const familySchema = new mongoose.Schema({
     title: {
@@ -24,7 +23,8 @@ const familySchema = new mongoose.Schema({
 
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
 });
 
@@ -44,7 +44,9 @@ familySchema.pre("save", function (next) {
 familySchema.methods.insertRoot = async function (member) {
     const prevRoot = this.root;
 
-    if(prevRoot) await member.insertDescendant(prevRoot._id);
+    if(prevRoot) {
+        await member.insertMember(prevRoot._id);
+    }
 
     this.root = member._id;
     
@@ -52,29 +54,27 @@ familySchema.methods.insertRoot = async function (member) {
 }
 
 familySchema.methods.getMembers = async function () {
-    const backpack = [];
-
     const root = await memberHandler.getOneMember(this.root);
 
     if(root) {
-        await root.traverse((member, {backpack}) => {
-            backpack.push(member);
-        }, {backpack});
+        return await root.getMembers();
     }
-
-    return backpack;
 }
 
 familySchema.methods.findMember = async function (parameters) {
-    let result;
-
     const root = await memberHandler.getOneMember(this.root);
 
     if(root) {
-        result = await root.findOne(parameters);
+        return await root.findMember(parameters);
     }
+}
 
-    return result;
+familySchema.methods.findMembers = async function (parameters) {
+    const root = await memberHandler.getOneMember(this.root);
+
+    if(root) {
+        return await root.findMembers(parameters);
+    }
 }
 
 familySchema.methods.deleteFamily = async function () {
