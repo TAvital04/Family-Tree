@@ -18,4 +18,5 @@ button {
     border: 1px solid black;
     background-color: transparent;
     padding: 5px;
+    cursor: pointer;
 }
