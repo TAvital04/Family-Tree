@@ -1,0 +1,36 @@
+.log {
+    background-color: rgb(255, 243, 227);
+
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    margin-left: 15rem;
+    margin-right: 15rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    
+    margin-top: 20%;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    margin: 0.7rem 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid black;
+    background-color: transparent;
+    font-family: inherit;
+}
+
+.submit {
+    display: block;
+    margin: 1.5rem auto 0 auto; /* Top margin + center horizontally */
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: url("/uploads/check-mark.png") no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+}

@@ -1,0 +1,42 @@
+#viewFamily-family {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding: 2rem;
+
+    height: auto;
+
+    background-color: rgb(255, 243, 227);
+}
+
+#viewFamily-family-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#viewFamily-family-options {
+    display: flex;
+}
+
+#viewFamily-family-options a {
+    margin-right: 25px;
+    text-decoration: none;
+    padding: 5px;
+    background-color: rgb(236, 221, 193);
+}
+
+.members {
+    border: 1px solid black;
+    margin: 20px;
+}
+
+.member {
+    padding: 10px;
+    margin: 10px;
+}
+
+.member-descendants {
+    margin: 10px;
+    border: 1px solid black;
+}

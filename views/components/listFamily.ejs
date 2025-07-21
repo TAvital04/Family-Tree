@@ -1,17 +1,25 @@
-<div>
-    <a href = "/families/<%= family.slug %>"><%= family.title %></a>
+<div id = "family">
+    <div id = "family-title">
+        <a href = "/families/<%= family.slug %>">
+            <%= family.title %>
+        </a>        
+    </div>
 
-    <form
-        action = "/families/<%= family._id %>/edit"
-        method = "GET"
-    >
-        <button type = "submit">Edit</button>
-    </form>
+    <div id = "family-options">
+        <form
+            class = "family-element"
+            action = "/families/<%= family._id %>/edit"
+            method = "GET"
+        >
+            <button type = "submit" id = "family-options-edit"></button>
+        </form>
 
-    <form
-        action = "/families/<%= family._id %>/delete?_method=DELETE"
-        method = "POST"
-    >
-        <button type = "submit">Delete</button>
-    </form>
+        <form
+            class = "family-element"
+            action = "/families/<%= family._id %>/delete?_method=DELETE"
+            method = "POST"
+        >
+            <button type = "submit" id = "family-options-delete"></button>
+        </form>        
+    </div>
 </div>

@@ -99,6 +99,28 @@ memberSchema.methods.getMembers = async function () {
     return result;
 }
 
+memberSchema.methods.getMembersAsObjects = async function () {
+    const tree = async (member) => {
+        const memberObject = {
+            ...member.member,
+            _id: member._id,
+            slug: member.slug,
+            descendants: []
+        };
+
+        for(const descendantId of member.descendants) {
+            const descendant = await memberHandler.getOneMember(descendantId);
+            const descendantTree = await tree(descendant);
+
+            memberObject.descendants.push(descendantTree);
+        }
+
+        return memberObject;
+    }
+
+    return await tree(this);
+}
+
 memberSchema.methods.findMember = async function (parameters) {
     const result = {result: null}
 

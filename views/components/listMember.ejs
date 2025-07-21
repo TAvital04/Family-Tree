@@ -2,4 +2,14 @@
     <a href = "/families/<%= family.slug %>/<%= member.slug %>">
         <%= member.member.firstname %> <%= member.member.lastname %>
     </a>
+    <br>
+    Gender: <%= member.member.gender %>
+    <br>
+    <% if(member.member.birthday) { %>
+        Birthday: <%= member.member.birthday %>
+    <% } else { %>
+        Birthday: None on file
+    <% } %>
+    <br>
+    <br>
 </div>

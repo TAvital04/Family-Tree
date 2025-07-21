@@ -1,0 +1,12 @@
+a {
+    color: black;
+}
+
+body {
+    background: url("/uploads/background.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+* {
+    font-family:'Times New Roman', Times, serif
+}

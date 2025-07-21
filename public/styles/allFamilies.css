@@ -1,0 +1,103 @@
+#allFamilies-page {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding: 2rem;
+
+    height: auto;
+
+    background-color: rgb(255, 243, 227);
+}
+
+#family {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1rem;
+}
+
+#allFamilies-page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#allFamilies-page-newFamily {
+    display: flex;
+    align-items: center;
+}
+
+#allFamilies-page-newFamily button {
+    width: 50px;
+    height: 50px;
+    background: url("/uploads/plus-sign.png") no-repeat center;
+    background-size: contain;
+
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+#family-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#family-title a {
+    color: black;
+    text-decoration: none;
+
+    font-size: 23px;
+}
+
+#family-options {
+    display: flex;
+}
+
+#family-options-delete {
+    background: url("/uploads/small-trash-can-closed.png") no-repeat center;
+    background-size: contain;
+    border: none;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+#family-options-delete:hover {
+    background: url("/uploads/small-trash-can-open.png") no-repeat center;
+    background-size: contain;
+    border: none;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+#family-options-edit {
+    background: url("/uploads/pencil-up.png") no-repeat center;
+    background-size: contain;
+    border: none;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+#logout button {
+    border: none;
+    background: rgb(255, 243, 227);
+
+    position: fixed;
+    top: 4rem;
+    right: 0rem;
+
+    padding-right: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}

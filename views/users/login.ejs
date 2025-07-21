@@ -1,6 +1,8 @@
-<%- include("../partials/header.ejs", {title}) %>
+<%- include("../partials/header.ejs", {title, styles: [
+    "loginRegister.css"
+]}) %>
 
-<div>
+<div class = "log" id = "log-login">
     <h1><%=title%></h1>
 
     <form action = "/users/login" method = "POST">
@@ -9,14 +11,14 @@
             name = "username" 
             placeholder = "username"
         >
-
+        <br>
         <input
             type = "password"
             name = "password"
             placeholder = "password"
         >
 
-        <button type ="submit"></button>
+        <button type ="submit" id = "loginRegister-submit"></button>
     </form>
 
     <a href = "/users/register">Register</a>

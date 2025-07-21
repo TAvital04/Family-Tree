@@ -1,0 +1,33 @@
+.log {
+    background-color: rgb(255, 243, 227);
+
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    margin-left: 15rem;
+    margin-right: 15rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    
+    margin-top: 20%;
+}
+
+#options {
+    width: max-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#options form button, #options a button {
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+
+    background-color: transparent;
+    border: 1px solid black;
+
+    cursor: pointer;
+}

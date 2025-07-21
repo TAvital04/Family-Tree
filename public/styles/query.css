@@ -1,0 +1,21 @@
+.log {
+    background-color: rgb(255, 243, 227);
+
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+    margin-left: 15rem;
+    margin-right: 15rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+
+button {
+    border: 1px solid black;
+    background-color: transparent;
+    padding: 5px;
+}

@@ -25,7 +25,7 @@ import memberHandler from "../handlers/memberHandler.js";
 // Read
     const getFamily = async (req, res) => {
         const family = await familyHandler.getOneFamily(req.params.familyTarget);
-        const members = await family.getMembers();
+        const members = await family.getMembersAsObjects();
 
         familyRenderer.getFamily(req, res, family, members);
     }

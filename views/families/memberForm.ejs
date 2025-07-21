@@ -1,45 +1,52 @@
-<%- include("../partials/header.ejs", {title}) %>
+<%- include("../partials/header.ejs", {title, styles: ["memberForm.css"]}) %>
 
-<form
-    action = "<%= action %>"
-    method = "POST"
->
-    <!--First name-->
-    <input
-        type = "text"
-        name = "firstname"
-        placeholder = "Enter first name"
-        value = "<%= member?.member?.firstname || '' %>"
+<div class = "log">
+    <form
+        action = "<%= action %>"
+        method = "POST"
     >
+        <!--First name-->
+        <input
+            type = "text"
+            name = "firstname"
+            placeholder = "Enter first name"
+            value = "<%= member?.member?.firstname || '' %>"
+            class = "option"
+        >
 
-    <!--Last name-->
-    <input
-        type = "text"
-        name = "lastname"
-        placeholder = "Enter last name"
-        value = "<%= member?.member?.lastname || '' %>"
-    >
+        <!--Last name-->
+        <input
+            type = "text"
+            name = "lastname"
+            placeholder = "Enter last name"
+            value = "<%= member?.member?.lastname || '' %>"
+            class = "option"
+        >
 
-    <!--Gender-->
-    <select 
-        name = "gender" 
-        value = "<%= member?.member?.gender || '' %>"
-    >
-        <!-- <option value = "Select gender">Select gender</option> -->
-        <option value = "Other/Prefer not to say">Other/Prefer not to say</option>  
-        <option value = "Male">Male</option>
-        <option value = "Female">Female</option>
-    </select>
+        <!--Gender-->
+        <select 
+            name = "gender" 
+            value = "<%= member?.member?.gender || '' %>"
+            class = "option"
+        >
+            <!-- <option value = "Select gender">Select gender</option> -->
+            <option value = "Other/Prefer not to say">Other/Prefer not to say</option>  
+            <option value = "Male">Male</option>
+            <option value = "Female">Female</option>
+        </select>
 
-    <!--Birthday-->
-    <input
-        type = "date"
-        name = "birthday"
-        value = "<%= member?.member?.birthday || '' %>"
-    >
+        <!--Birthday-->
+        <input
+            type = "date"
+            name = "birthday"
+            value = "<%= member?.member?.birthday || '' %>"
+            class = "option"
+        >
 
-    <!--Submit-->
-    <button type = "submit"></button>
-</form>
+        <!--Submit-->
+        <button type = "submit" class = "submit"></button>
+    </form>    
+</div>
+
 
 <%- include("../partials/footer.ejs", {scripts: undefined}) %>

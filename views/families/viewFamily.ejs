@@ -1,32 +1,62 @@
-<%- include("../partials/header.ejs", {title}) %>
+<% function renderMember(member) { %>
+    <div class = "member">
+        <div class = "member-info">
+            <a href = "<%= `/families/${req.params.familyTarget}/${member.slug}` %>">
+                <%= member.firstname %> <%= member.lastname %>   
+            </a>
+        </div>
 
-<h1><%= title %></h1>
+        <% if(member.descendants.length > 0) { %>
+            <div class = "member-descendants">
+                <% for(const descendant of member.descendants) { %>
+                    <%- renderMember(descendant) %>
+                <% } %>    
+            </div>
+        <% } %>
+    </div>
+<% } %>
 
-<form
-    action = "/families/<%= family._id %>/edit"
-    method = "GET"
->
-    <button type = "submit">Edit</button>
-</form>
+<%- include("../partials/header.ejs", {title, styles: [
+    "viewFamily.css"
+]}) %>
 
-<a href = <%= `/families/${req.params.familyTarget}/addToRoot` %>>
-    <button>Add Member</button>
-</a>
+<div class = "family" id = "viewFamily-family">
+    <div id = viewFamily-family-title>
+        <h1><%= title %></h1>
+    </div>
 
-<% if(members) { 
-    members.forEach(member => { 
-        if(member) { %>
-            <%- include("../components/listMember.ejs", {req, member}) %>
-        <% } 
-    })
-} %>
+    <div id = "viewFamily-family-options">
+        <a href = <%= `/families/${family._id}/edit` %>>
+            Edit
+        </a>
+        
+        <a href = <%= `/families/${req.params.familyTarget}/addToRoot` %>>
+            Add Member
+        </a>
+        
+        <a href = <%= `/families/${req.params.familyTarget}/query` %>>
+            Create Query
+        </a>
+        
+        <a href = <%= `/families` %>>
+            Back to Families
+        </a>        
+    </div>
 
-<a href = <%= `/families/${req.params.familyTarget}/query` %>>
-    <button>Create Query</button>
-</a>
+    <div id = "viewFamily-family-content">
+        <% if(members) { %>
+            <div class = "members">
+                <%- renderMember(members) %>
+            </div>
+        <% } %>        
+    </div>
+</div>
 
-<a href = <%= `/families` %>>
-    <button>Back to Families</button>
-</a>
+<%- include("../partials/footer.ejs", {scripts: []}) %>
 
-<%- include("../partials/footer.ejs", {scripts: undefined}) %>
+
+
+
+
+
+

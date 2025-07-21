@@ -16,7 +16,7 @@ import passport from "passport";
         });
 
         req.flash("success", "Logout Successful");
-        res.render("users/home", {
+        res.render("users/login", {
             title: "Home",
             flashes: req.flash()
         });

@@ -1,16 +1,19 @@
-<%- include("../partials/header.ejs", {title}) %>
-<div>
-    <h1><%=title%></h1>
+<%- include("../partials/header.ejs", {title, styles: [
+    "loginRegister.css"
+]}) %>
 
-    <div>
-        <% if(flashes && flashes.danger) { %>
-            <div class = "alert alert-danger">
-                <% flashes.danger.forEach(function(message) { %>
-                    <p><%=message%></p>
-                <% }) %>
-            </div>
-        <% } %>
-    </div>
+<div id = "registration-errors">
+    <% if(flashes && flashes.danger) { %>
+        <div class = "alert alert-danger" id = "errors-list">
+            <% flashes.danger.forEach(function(message) { %>
+                <p><%=message%></p>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<div class = "log" id = "log-register">
+    <h1><%=title%></h1>
 
     <form action = "/users/register" method = "POST">
         <input 
@@ -18,20 +21,19 @@
             name = "username" 
             placeholder = "username"
         >
-
+        <br>
         <input
             type = "password"
             name = "password"
             placeholder = "password"
         >
-
         <input
             type = "password"
             name = "confirm-password"
             placeholder = "confirm password"
         >
 
-        <button type ="submit"></button>
+        <button type ="submit" id = "loginRegister-submit"></button>
     </form>
 
     <a href = "/users/login">Login</a>

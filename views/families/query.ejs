@@ -1,17 +1,22 @@
-<%- include("../partials/header.ejs", {title}) %>
+<%- include("../partials/header.ejs", {title, styles: ["query.css"]}) %>
 
-<h1>Query</h1>
+<div class = "log">
+    <h1>Query</h1>
 
-<% if(members) { 
-    members.forEach(member => { 
-        if(member) { %>
-            <%- include("../components/listMember.ejs", {req, member}) %>
-        <% } 
-    })
-} %>
+    <% if(members) { 
+        members.forEach(member => { 
+            if(member) { %>
+                <%- include("../components/listMember.ejs", {req, member}) %>
+            <% } 
+        })
+    } %>
 
-<a href = <%= `/families/${req.params.familyTarget}` %>>
-    <button>Back to Family</button>
-</a>
+    <br>
+
+    <a href = <%= `/families/${req.params.familyTarget}` %>>
+        <button>Back to Family</button>
+    </a>    
+</div>
+
 
 <%- include("../partials/footer.ejs", {scripts: undefined}) %>

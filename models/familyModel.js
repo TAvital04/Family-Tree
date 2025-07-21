@@ -61,6 +61,14 @@ familySchema.methods.getMembers = async function () {
     }
 }
 
+familySchema.methods.getMembersAsObjects = async function () {
+    const root = await memberHandler.getOneMember(this.root);
+
+    if(root) {
+        return await root.getMembersAsObjects();
+    }
+}
+
 familySchema.methods.findMember = async function (parameters) {
     const root = await memberHandler.getOneMember(this.root);
 
